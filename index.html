@@ -1584,7 +1584,7 @@ function exportCSV() {
   const csv = [headers, ...rows].map(r =>
     r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')
   ).join('\n');
-  const bom = '﻿'; // BOM for Excel Thai support
+  const bom = '\uFEFF'; // BOM for Excel Thai support
   const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
