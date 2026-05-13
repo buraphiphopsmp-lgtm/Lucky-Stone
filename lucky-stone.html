@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Kanit:wght@400;500;600;700&family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -520,6 +521,267 @@
   }
   .error.show { display: block; }
 
+  /* Soul Stone (หินประจำตัว) - big hero card */
+  .soul-stone {
+    background: linear-gradient(135deg, #fff0f9 0%, #f0e6ff 50%, #e6f9ff 100%);
+    border: 3px solid white;
+    border-radius: 28px;
+    padding: 24px 20px;
+    margin-bottom: 18px;
+    text-align: center;
+    box-shadow: 0 15px 30px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .soul-stone::before, .soul-stone::after {
+    content: '✨';
+    position: absolute;
+    font-size: 2em;
+    opacity: 0.5;
+    animation: twinkle 2s ease-in-out infinite;
+  }
+  .soul-stone::before { top: 10px; left: 15px; }
+  .soul-stone::after { bottom: 10px; right: 15px; animation-delay: -1s; }
+  .soul-label {
+    font-family: 'Bubblegum Sans', sans-serif;
+    color: var(--pink-dark);
+    font-size: 1.1em;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .soul-image {
+    width: 160px;
+    height: 160px;
+    margin: 8px auto 12px;
+    display: block;
+    filter: drop-shadow(0 10px 20px var(--shadow));
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .soul-name {
+    font-family: 'Bubblegum Sans', sans-serif;
+    font-size: 1.8em;
+    color: var(--purple-dark);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .soul-desc {
+    color: #6b5580;
+    line-height: 1.7;
+    font-size: 1em;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .soul-tags {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+
+  /* Personality analysis */
+  .personality-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .personality-card {
+    background: white;
+    border-radius: 22px;
+    padding: 18px;
+    border: 3px solid;
+    box-shadow: 0 6px 16px var(--shadow);
+  }
+  .personality-card.strength {
+    border-color: #88d8a8;
+    background: linear-gradient(135deg, #f0fff5 0%, #e8fff0 100%);
+  }
+  .personality-card.improve {
+    border-color: #ffd0a8;
+    background: linear-gradient(135deg, #fff8f0 0%, #fff0e8 100%);
+  }
+  .personality-card .p-header {
+    font-family: 'Bubblegum Sans', sans-serif;
+    text-align: center;
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+  }
+  .personality-card.strength .p-header { color: #2e8a52; }
+  .personality-card.improve .p-header { color: #c87030; }
+  .personality-card ul { list-style: none; padding: 0; }
+  .personality-card li {
+    padding: 5px 0;
+    font-size: 0.92em;
+    line-height: 1.5;
+    color: #4a3267;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .personality-card.strength li::before { content: '💪'; }
+  .personality-card.improve li::before { content: '🌱'; }
+
+  .style-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .style-card {
+    background: white;
+    border: 2px solid #f0e6ff;
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 4px 12px var(--shadow);
+  }
+  .style-icon { font-size: 1.6em; margin-bottom: 4px; }
+  .style-title {
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 4px;
+  }
+  .style-text {
+    color: #6b5580;
+    font-size: 0.92em;
+    line-height: 1.5;
+  }
+
+  /* Enhancement stones */
+  .enhance-card {
+    background: linear-gradient(135deg, #fff5fb 0%, #f5edff 100%);
+    border-radius: 22px;
+    padding: 16px;
+    margin-bottom: 12px;
+    border: 3px solid #e8dcff;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    box-shadow: 0 6px 16px var(--shadow);
+    transition: transform 0.3s;
+  }
+  .enhance-card:hover {
+    transform: translateY(-3px) rotate(0.5deg);
+    border-color: var(--purple);
+  }
+  .enhance-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 18px;
+    flex-shrink: 0;
+    padding: 6px;
+    background: white;
+    box-shadow: 0 4px 10px var(--shadow);
+  }
+  .enhance-content { flex: 1; }
+  .enhance-goal {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff7eb9 0%, #9061f5 100%);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .enhance-name {
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 4px;
+    font-size: 1.05em;
+  }
+  .enhance-desc {
+    color: #6b5580;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+
+  /* Share buttons */
+  .share-section {
+    background: linear-gradient(135deg, #ffd6f0 0%, #c9b6ff 50%, #a0e7ff 100%);
+    border-radius: 26px;
+    padding: 22px;
+    margin-top: 18px;
+    text-align: center;
+    box-shadow: 0 10px 25px var(--shadow);
+  }
+  .share-title {
+    font-family: 'Bubblegum Sans', sans-serif;
+    color: white;
+    font-size: 1.4em;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    letter-spacing: 1px;
+  }
+  .share-subtitle {
+    color: white;
+    opacity: 0.95;
+    margin-bottom: 14px;
+    font-size: 0.95em;
+  }
+  .share-grid {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .share-btn {
+    background: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.92em;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    width: auto;
+    margin: 0;
+    letter-spacing: 0;
+  }
+  .share-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+  }
+  .share-btn.facebook { background: #1877f2; color: white; }
+  .share-btn.twitter { background: #000; color: white; }
+  .share-btn.line { background: #06c755; color: white; }
+  .share-btn.whatsapp { background: #25d366; color: white; }
+  .share-btn.copy { background: white; color: var(--purple-dark); }
+  .share-btn.download { background: linear-gradient(135deg, #ff7eb9 0%, #9061f5 100%); color: white; }
+
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--purple-dark);
+    color: white;
+    padding: 14px 24px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 200;
+    font-weight: 600;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+
+  @media (max-width: 560px) {
+    .personality-grid { grid-template-columns: 1fr; }
+    .enhance-card { flex-direction: column; text-align: center; }
+    .enhance-image { width: 120px; height: 120px; }
+  }
+
   /* Tabs */
   .tab-bar {
     position: fixed;
@@ -1031,6 +1293,101 @@ function getZodiac(month, day) {
   return zodiacSigns[0];
 }
 
+// Personality analysis by day of week (deep dive)
+const personalityByDay = {
+  0: {
+    strengths: ['มีความเป็นผู้นำสูง คนรอบข้างมักทำตาม', 'มีออร่าและเสน่ห์ดึงดูดผู้คน', 'มุ่งมั่นกล้าหาญในเป้าหมาย'],
+    improve: ['อาจอีโก้สูงเกินไป ฟังคนอื่นบ้าง', 'ใจร้อนเมื่อเจออุปสรรค'],
+    love: 'รักแบบหลงใหล โรแมนติก แต่ต้องการให้คู่ยอมรับความเป็นตัวเอง',
+    work: 'เหมาะเป็นหัวหน้า ผู้ก่อตั้ง หรือสาย creative ที่ได้แสดงตัวตน',
+    talk: 'พูดตรง มั่นใจ มีเสน่ห์ในการนำเสนอ',
+    weak: ['confidence', 'leadership-soft']
+  },
+  1: {
+    strengths: ['จิตใจอ่อนโยน เข้าใจคนอื่นเก่ง', 'มีสัญชาตญาณดี รู้สึกถึงสิ่งต่างๆ ได้ไว', 'มีศิลปะและความสร้างสรรค์'],
+    improve: ['อ่อนไหวต่อคำพูดคนอื่นมาก', 'ตัดสินใจช้า ลังเลบ่อย'],
+    love: 'รักลึกซึ้ง ทุ่มเท คาดหวังให้คู่เข้าใจอารมณ์',
+    work: 'เหมาะกับงานศิลป์ จิตวิทยา ดูแลคน หรืองานที่ใช้สัญชาตญาณ',
+    talk: 'พูดน้อยแต่ลึก เลือกใช้คำ ระมัดระวังความรู้สึกคนอื่น',
+    weak: ['confidence', 'protection', 'decision']
+  },
+  2: {
+    strengths: ['พลังงานเยอะ ขยันทำงาน', 'กล้าตัดสินใจ ตรงไปตรงมา', 'มีความเป็นนักสู้ ไม่ยอมแพ้ง่ายๆ'],
+    improve: ['อารมณ์ร้อน หงุดหงิดง่าย', 'พูดตรงเกินไป อาจทำคนเสียใจ'],
+    love: 'รักแรงและจริงจัง หึงเร็ว ต้องการคู่ที่ตรงไปตรงมา',
+    work: 'เหมาะกับงาน sport, sales, ทหาร, นักกีฬา, ผู้ประกอบการ',
+    talk: 'พูดเร็ว เสียงดัง บางครั้งดูดุ',
+    weak: ['calm', 'patience', 'love']
+  },
+  3: {
+    strengths: ['ไหวพริบดี เรียนรู้เร็ว', 'พูดเก่ง เจรจาธุรกิจดี', 'ปรับตัวเก่ง อยู่ได้ทุกสถานการณ์'],
+    improve: ['คิดมากเกินไป สมองทำงานตลอดเวลา', 'อาจขี้เบื่อง่าย เปลี่ยนใจบ่อย'],
+    love: 'รักแบบเพื่อน ชอบคุยและแลกเปลี่ยนความคิด ไม่ชอบความน่าเบื่อ',
+    work: 'เหมาะกับงาน sales, การตลาด, ครู, นักข่าว, content creator',
+    talk: 'พูดดี รู้จังหวะ มีอารมณ์ขัน',
+    weak: ['focus', 'wealth', 'commitment']
+  },
+  4: {
+    strengths: ['ใจดี มีเมตตา คนรอบข้างนับถือ', 'รักการเรียนรู้ มีปัญญา', 'ศีลธรรมสูง คนเคารพ'],
+    improve: ['เป็นห่วงคนอื่นจนลืมดูแลตัวเอง', 'บางครั้งจริงจังเกินไป'],
+    love: 'รักแบบให้ ดูแลและปกป้อง คู่ที่ดีต้องเข้าใจความใจดีของคุณ',
+    work: 'เหมาะกับครู อาจารย์ ที่ปรึกษา ผู้พิพากษา หมอ ราชการ',
+    talk: 'พูดมีหลักการ น่าเชื่อถือ เป็นที่ปรึกษาที่ดี',
+    weak: ['self-love', 'wealth-flow', 'happiness']
+  },
+  5: {
+    strengths: ['เสน่ห์เยอะ ใครๆ ก็รัก', 'มีรสนิยม รักความสวยงาม', 'เข้าสังคมเก่ง เพื่อนเยอะ'],
+    improve: ['ขี้เกียจบ้าง ชอบสบาย', 'อาจตามใจตัวเองเรื่องเงินมาก'],
+    love: 'โรแมนติก รักความหวานชื่น ชอบของขวัญและความใส่ใจเล็กๆ น้อยๆ',
+    work: 'เหมาะกับ designer, artist, beauty, entertainment, hospitality',
+    talk: 'พูดเพราะ น้ำเสียงนุ่ม ชวนคุย',
+    weak: ['discipline', 'wealth-save', 'focus']
+  },
+  6: {
+    strengths: ['อดทน หนักแน่น สุดยอด', 'มีปัญญาลึกซึ้ง คิดได้ลึกกว่าคนทั่วไป', 'มุ่งมั่นจนสำเร็จ'],
+    improve: ['คิดมากจนเครียด', 'ปิดตัวเอง พูดน้อย ทำให้คนเข้าไม่ถึง'],
+    love: 'รักลึก จริงจัง ไม่ใช่คนที่รักง่ายเลิกง่าย ต้องการคู่ที่เข้าใจ',
+    work: 'เหมาะกับวิจัย วิเคราะห์ การเงิน เทคนิค หรือสาย spiritual',
+    talk: 'พูดน้อย แต่มีน้ำหนัก ฟังเก่ง',
+    weak: ['joy', 'opening-up', 'release-stress']
+  }
+};
+
+// Enhancement stones library (by area to improve)
+const enhancementStones = {
+  'confidence': { name: 'ซิทริน (Citrine)', goal: '💪 เสริมความมั่นใจ', desc: 'หินสีเหลืองทองช่วยเสริมความมั่นใจ ดึงพลังบวก และทำให้กล้าแสดงออก', img: () => kawaiiStone('#ffd870', '#f0a830', 'star') },
+  'leadership-soft': { name: 'อเวนทูรีน (Aventurine)', goal: '🌿 ผู้นำแบบนุ่มนวล', desc: 'หินสีเขียวช่วยให้คุณเป็นผู้นำที่นุ่มนวล มีเมตตา ไม่กดดันคนอื่น', img: () => kawaiiStone('#a8e0a0', '#4ca878', 'flower') },
+  'protection': { name: 'แบล็กทัวร์มาลีน (Black Tourmaline)', goal: '🛡️ ปกป้องพลังลบ', desc: 'หินดำดูดพลังลบและความคิดของคนรอบข้าง เหมาะกับคนอ่อนไหว', img: () => kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
+  'decision': { name: 'ไทเกอร์อาย (Tiger Eye)', goal: '🎯 ตัดสินใจได้เด็ดขาด', desc: 'หินสีน้ำตาลทองช่วยให้คุณเห็นภาพชัด ตัดสินใจได้ฉับไว ไม่ลังเล', img: () => kawaiiStone('#d8a868', '#8a5028', 'round') },
+  'calm': { name: 'อเมทิสต์ (Amethyst)', goal: '🧘 สงบจิตใจ', desc: 'หินสีม่วงช่วยให้ใจเย็น ลดความหงุดหงิด เสริมสมาธิ ทำให้นอนหลับดี', img: () => kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
+  'patience': { name: 'ฮาวไลต์ (Howlite)', goal: '⏳ เพิ่มความอดทน', desc: 'หินสีขาวลายเทาช่วยลดความใจร้อน เพิ่มความอดทนและความเมตตา', img: () => kawaiiStone('#f5f0e8', '#a8a098', 'round') },
+  'love': { name: 'โรสควอตซ์ (Rose Quartz)', goal: '💗 ความรักและสัมพันธ์', desc: 'ราชินีแห่งหินความรัก เสริมเสน่ห์ ทำให้ใจอ่อนโยน ดึงดูดความรักดีๆ', img: () => kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
+  'focus': { name: 'ฟลูออไรต์ (Fluorite)', goal: '🎯 เพิ่มสมาธิและโฟกัส', desc: 'หินสีเขียว-ม่วงช่วยเพิ่มสมาธิ จัดระเบียบความคิด เหมาะกับคนที่คิดเยอะ', img: () => kawaiiStone('#a8b8e8', '#5a78c0', 'diamond') },
+  'wealth': { name: 'ไพไรต์ (Pyrite)', goal: '💰 ดึงดูดเงินทอง', desc: '"ทองคำของคนโง่" จริงๆ แล้วเป็นหินดึงดูดความมั่งคั่งและโอกาสทางธุรกิจ', img: () => kawaiiStone('#e8c878', '#a88020', 'diamond') },
+  'wealth-flow': { name: 'หยกพม่า (Jade)', goal: '💎 กระแสเงินสด', desc: 'นำพาความเจริญรุ่งเรือง โชคลาภ และทรัพย์สินมาตลอดชีวิต', img: () => kawaiiStone('#a8d8b8', '#4ca878', 'flower') },
+  'wealth-save': { name: 'การ์เน็ต (Garnet)', goal: '🏦 รักษาทรัพย์', desc: 'ช่วยให้คุณเก็บเงินได้ดีขึ้น ระมัดระวังการใช้จ่ายฟุ่มเฟือย', img: () => kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
+  'commitment': { name: 'โอนิกซ์แดง (Red Onyx)', goal: '🔗 ความมั่นคงและคำมั่น', desc: 'ช่วยให้คุณยึดมั่นในเป้าหมาย ไม่ล้มเลิกง่าย รักษาคำพูดและความสัมพันธ์', img: () => kawaiiStone('#c84840', '#5a1818', 'diamond') },
+  'self-love': { name: 'โรโดไนต์ (Rhodonite)', goal: '🌸 รักตัวเอง', desc: 'หินสีชมพูช่วยเตือนให้คุณดูแลตัวเอง ไม่ลืมความสุขของตัวเอง', img: () => kawaiiStone('#f0a8c0', '#c05080', 'heart') },
+  'happiness': { name: 'ซันสโตน (Sunstone)', goal: '☀️ ความสุข', desc: 'หินดวงอาทิตย์มอบความอบอุ่นและความสุขในชีวิตประจำวัน', img: () => kawaiiStone('#ffc070', '#e88c1a', 'star') },
+  'discipline': { name: 'เฮมาไทต์ (Hematite)', goal: '🎖️ วินัยและความเป็นระเบียบ', desc: 'หินสีเทาเงาช่วยให้คุณมีระเบียบ มีวินัยมากขึ้น มุ่งมั่นในเป้าหมาย', img: () => kawaiiStone('#a8a8b8', '#4a4a5a', 'round') },
+  'joy': { name: 'ซิทริน (Citrine)', goal: '😊 ความเบิกบาน', desc: 'ดึงพลังงานบวก ทำให้คุณยิ้มได้ง่ายขึ้น มองโลกในแง่ดี', img: () => kawaiiStone('#ffd870', '#f0a830', 'star') },
+  'opening-up': { name: 'บลูเลซอาเกต (Blue Lace Agate)', goal: '🗣️ เปิดใจสื่อสาร', desc: 'หินสีฟ้าอ่อนช่วยให้คุณกล้าพูด เปิดใจ บอกความรู้สึกได้ง่ายขึ้น', img: () => kawaiiStone('#c8e0f0', '#6890b0', 'teardrop') },
+  'release-stress': { name: 'เลปิโดไลต์ (Lepidolite)', goal: '🌙 ปลดปล่อยความเครียด', desc: 'หินสีม่วงอ่อนช่วยคลายเครียด ผ่อนคลายความวิตกกังวล นอนหลับดี', img: () => kawaiiStone('#e0c8f0', '#9070b8', 'flower') }
+};
+
+// Pick soul stone (primary stone) based on combined factors
+function getSoulStone(dayInfo, zodiac, lifeNumber, cnZodiac) {
+  // Primary is the first stone of birth day (most traditional)
+  const primary = dayInfo.stones[0];
+  return {
+    img: primary.img,
+    name: primary.name.replace(/^(แหวน|กำไล|สร้อย|จี้|ต่างหู)/, ''),
+    fullName: primary.name,
+    desc: primary.desc,
+    tags: [dayInfo.day, zodiac.name, cnZodiac.th, `เลขชีวิต ${lifeNumber}`]
+  };
+}
+
 // Chinese Zodiac (12 animals, 12-year cycle)
 const chineseZodiac = [
   { en: 'Rat', th: 'ชวด (หนู)', cn: '鼠', emoji: '🐭', trait: 'ฉลาด คล่องแคล่ว ปรับตัวเก่ง' },
@@ -1327,7 +1684,28 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
 
   let stonesHtml = dayInfo.stones.map(s => stoneCard(s.img, s.emoji, s.name, s.desc)).join('');
 
+  // Get personality and soul stone
+  const personality = personalityByDay[dayOfWeek];
+  const soulStone = getSoulStone(dayInfo, zodiac, lifeNumber, cnZodiac);
+
+  // Pick 3 enhancement stones based on personality weak areas
+  const enhanceKeys = personality.weak.slice(0, 3);
+  const enhanceCards = enhanceKeys
+    .map(k => enhancementStones[k])
+    .filter(Boolean)
+    .map(s => `
+      <div class="enhance-card">
+        <img class="enhance-image" src="${s.img()}" alt="${s.name}">
+        <div class="enhance-content">
+          <span class="enhance-goal">${s.goal}</span>
+          <div class="enhance-name">${s.name}</div>
+          <div class="enhance-desc">${s.desc}</div>
+        </div>
+      </div>
+    `).join('');
+
   document.getElementById('result').innerHTML = `
+    <div id="shareableCard">
     <h2>💖 ผลวิเคราะห์ของคุณ 💖</h2>
 
     <div class="person-info">
@@ -1339,6 +1717,50 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
         <span class="badge number-badge">🔢 เลขชีวิต ${lifeNumber}</span>
       </div>
     </div>
+
+    <div class="section-title">หินประจำตัวของคุณ</div>
+    <div class="soul-stone">
+      <div class="soul-label">✦ MY SOUL STONE ✦</div>
+      <img class="soul-image" src="${soulStone.img}" alt="${soulStone.fullName}">
+      <div class="soul-name">${soulStone.fullName}</div>
+      <div class="soul-desc">${soulStone.desc}</div>
+      <div class="soul-tags">
+        ${soulStone.tags.map(t => `<span class="badge zodiac-badge">${t}</span>`).join('')}
+      </div>
+    </div>
+
+    <div class="section-title">วิเคราะห์บุคลิก & นิสัย</div>
+    <div class="personality-grid">
+      <div class="personality-card strength">
+        <div class="p-header">💪 จุดแข็ง 💪</div>
+        <ul>${personality.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>
+      <div class="personality-card improve">
+        <div class="p-header">🌱 จุดที่ควรพัฒนา 🌱</div>
+        <ul>${personality.improve.map(s => `<li>${s}</li>`).join('')}</ul>
+      </div>
+    </div>
+
+    <div class="style-grid">
+      <div class="style-card">
+        <div class="style-icon">💕</div>
+        <div class="style-title">สไตล์ความรัก</div>
+        <div class="style-text">${personality.love}</div>
+      </div>
+      <div class="style-card">
+        <div class="style-icon">💼</div>
+        <div class="style-title">สไตล์การทำงาน</div>
+        <div class="style-text">${personality.work}</div>
+      </div>
+      <div class="style-card">
+        <div class="style-icon">🗣️</div>
+        <div class="style-title">สไตล์การสื่อสาร</div>
+        <div class="style-text">${personality.talk}</div>
+      </div>
+    </div>
+
+    <div class="section-title">หินเสริมจุดอ่อน · Boost Your Vibe</div>
+    ${enhanceCards}
 
     <div class="lucky-info">
       <p>🎨 <span><strong>สีมงคล:</strong> ${dayInfo.color}</span></p>
@@ -1432,7 +1854,29 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
       ✨ ขอให้หินมงคลพา ${firstName} ปังตลอดไปน้า 💕<br>
       Lucky vibes only~ 🌸
     </div>
+    </div>
+
+    <div class="share-section">
+      <div class="share-title">📱 แชร์ผลให้เพื่อน 📱</div>
+      <div class="share-subtitle">หินประจำตัวของฉันคือ ${soulStone.fullName.replace(/^(แหวน|กำไล|สร้อย|จี้|ต่างหู)/, '')} ✨</div>
+      <div class="share-grid">
+        <button class="share-btn facebook" onclick="shareTo('facebook')">📘 Facebook</button>
+        <button class="share-btn twitter" onclick="shareTo('twitter')">🐦 X</button>
+        <button class="share-btn line" onclick="shareTo('line')">💚 LINE</button>
+        <button class="share-btn whatsapp" onclick="shareTo('whatsapp')">💬 WhatsApp</button>
+        <button class="share-btn copy" onclick="shareTo('copy')">🔗 คัดลอกลิงก์</button>
+        <button class="share-btn download" onclick="shareTo('download')">📸 บันทึกเป็นภาพ</button>
+      </div>
+    </div>
   `;
+
+  // Store share data globally for button handlers
+  window.__shareData = {
+    stoneName: soulStone.fullName.replace(/^(แหวน|กำไล|สร้อย|จี้|ต่างหู)/, ''),
+    firstName,
+    dayName: dayInfo.day,
+    zodiacName: zodiac.name
+  };
   // Save submission to localStorage
   submissions.push({
     id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
@@ -1571,6 +2015,103 @@ function clearAll() {
   submissions = [];
   saveSubmissions();
   renderAdmin();
+}
+
+/* ---------- Social media sharing ---------- */
+function showToast(msg) {
+  let t = document.querySelector('.toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.className = 'toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+async function shareTo(platform) {
+  const data = window.__shareData;
+  if (!data) return;
+  const url = window.location.href.split('#')[0];
+  const text = `🔮 หินประจำตัวของฉันคือ "${data.stoneName}" ✨\nเกิด${data.dayName} ราศี${data.zodiacName}\nลองค้นหาหินมงคลของคุณบ้าง 💎`;
+  const encoded = encodeURIComponent(text);
+  const encodedUrl = encodeURIComponent(url);
+
+  const shareUrls = {
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encoded}`,
+    twitter: `https://twitter.com/intent/tweet?text=${encoded}&url=${encodedUrl}`,
+    line: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}&text=${encoded}`,
+    whatsapp: `https://api.whatsapp.com/send?text=${encoded}%20${encodedUrl}`
+  };
+
+  if (platform === 'copy') {
+    try {
+      await navigator.clipboard.writeText(`${text}\n${url}`);
+      showToast('✅ คัดลอกลิงก์แล้ว!');
+    } catch (e) {
+      showToast('❌ คัดลอกไม่สำเร็จ');
+    }
+    return;
+  }
+
+  if (platform === 'download') {
+    await downloadAsImage();
+    return;
+  }
+
+  if (shareUrls[platform]) {
+    window.open(shareUrls[platform], '_blank', 'width=600,height=600');
+  }
+}
+
+async function downloadAsImage() {
+  const card = document.getElementById('shareableCard');
+  if (!card) { showToast('❌ ไม่พบเนื้อหาที่จะบันทึก'); return; }
+  if (typeof html2canvas === 'undefined') {
+    showToast('⏳ กำลังโหลดเครื่องมือ ลองอีกครั้ง');
+    return;
+  }
+  showToast('📸 กำลังสร้างภาพ...');
+  try {
+    const canvas = await html2canvas(card, {
+      backgroundColor: '#fff0f9',
+      scale: 2,
+      useCORS: true,
+      logging: false
+    });
+    const dataUrl = canvas.toDataURL('image/png');
+
+    // Try Web Share API for mobile (share image directly)
+    if (navigator.share && navigator.canShare) {
+      try {
+        const blob = await (await fetch(dataUrl)).blob();
+        const file = new File([blob], 'lucky-stone.png', { type: 'image/png' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: 'หินประจำตัวของฉัน',
+            text: window.__shareData.stoneName
+          });
+          showToast('✅ แชร์สำเร็จ!');
+          return;
+        }
+      } catch (e) {
+        // fall through to download
+      }
+    }
+
+    // Fallback: download
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = `lucky-stone-${window.__shareData.firstName || 'me'}.png`;
+    a.click();
+    showToast('✅ บันทึกภาพแล้ว!');
+  } catch (e) {
+    console.error(e);
+    showToast('❌ สร้างภาพไม่สำเร็จ');
+  }
 }
 
 function exportCSV() {
