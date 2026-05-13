@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✨ หินมงคลของฉัน ✨ Lucky Stone Finder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Kanit:wght@400;500;600;700&family=Mali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #ffb6d9;
+    --pink-dark: #ff7eb9;
+    --purple: #b794f6;
+    --purple-dark: #9061f5;
+    --mint: #a8e6cf;
+    --peach: #ffd6a5;
+    --sky: #a0e7ff;
+    --yellow: #fff5a0;
+    --cream: #fff8f0;
+    --text: #4a3267;
+    --shadow: rgba(150, 100, 200, 0.25);
+  }
+
+  body {
+    font-family: 'Mali', 'Kanit', 'Comic Sans MS', sans-serif;
+    background:
+      radial-gradient(circle at 10% 20%, #ffd6f0 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, #c9b6ff 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, #a0e7ff 0%, transparent 50%),
+      linear-gradient(135deg, #fff0f9 0%, #f0e6ff 50%, #e6f9ff 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    color: var(--text);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Floating decorations */
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.6;
+    z-index: 0;
+    animation: float 8s ease-in-out infinite;
+  }
+  body::before {
+    width: 200px; height: 200px;
+    background: var(--pink);
+    top: 10%; left: -50px;
+  }
+  body::after {
+    width: 250px; height: 250px;
+    background: var(--purple);
+    bottom: 10%; right: -50px;
+    animation-delay: -4s;
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -30px); }
+  }
+
+  .sparkle {
+    position: absolute;
+    pointer-events: none;
+    font-size: 1.5em;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(0.8) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
+  }
+
+  .container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 3px solid white;
+    border-radius: 32px;
+    box-shadow:
+      0 25px 60px var(--shadow),
+      0 0 0 8px rgba(255, 255, 255, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    max-width: 760px;
+    width: 100%;
+    padding: 40px 35px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-stars {
+    position: absolute;
+    top: 15px;
+    font-size: 1.4em;
+  }
+  .header-stars.left { left: 25px; }
+  .header-stars.right { right: 25px; }
+
+  .gem-icon {
+    text-align: center;
+    font-size: 3.5em;
+    margin-bottom: 5px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  h1 {
+    font-family: 'Bubblegum Sans', 'Mali', sans-serif;
+    text-align: center;
+    font-size: 2.4em;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #ff7eb9 0%, #9061f5 50%, #a0e7ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 1px;
+  }
+  .subtitle {
+    text-align: center;
+    color: #9580b0;
+    margin-bottom: 28px;
+    font-size: 1.05em;
+    font-weight: 500;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+  label {
+    display: block;
+    font-weight: 600;
+    color: var(--purple-dark);
+    margin-bottom: 8px;
+    font-size: 1em;
+    padding-left: 8px;
+  }
+  input[type="text"], input[type="date"] {
+    width: 100%;
+    padding: 14px 18px;
+    border: 3px solid #f0e0ff;
+    border-radius: 18px;
+    font-size: 1em;
+    font-family: inherit;
+    background: white;
+    color: var(--text);
+    transition: all 0.3s;
+  }
+  input[type="text"]:focus, input[type="date"]:focus {
+    outline: none;
+    border-color: var(--pink-dark);
+    box-shadow: 0 0 0 4px rgba(255, 126, 185, 0.2);
+    transform: translateY(-2px);
+  }
+  input::placeholder { color: #c8b8d8; }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #ff7eb9 0%, #9061f5 100%);
+    color: white;
+    border: none;
+    border-radius: 22px;
+    font-size: 1.2em;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 12px;
+    box-shadow:
+      0 8px 20px rgba(144, 97, 245, 0.4),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+  }
+  button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow:
+      0 12px 25px rgba(144, 97, 245, 0.5),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  button:active { transform: translateY(0) scale(0.98); }
+
+  .result {
+    margin-top: 28px;
+    padding: 28px 22px;
+    background:
+      linear-gradient(135deg, rgba(255, 246, 252, 0.95) 0%, rgba(240, 230, 255, 0.95) 100%);
+    border-radius: 28px;
+    border: 3px dashed var(--pink-dark);
+    display: none;
+    animation: pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+  .result.show { display: block; }
+  @keyframes pop {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .result h2 {
+    font-family: 'Bubblegum Sans', sans-serif;
+    color: var(--purple-dark);
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 1.7em;
+    letter-spacing: 1px;
+  }
+
+  .person-info {
+    text-align: center;
+    background: white;
+    border: 2px solid #ffd6f0;
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 18px;
+  }
+  .person-name {
+    font-size: 1.4em;
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 6px;
+  }
+  .person-date { color: #9580b0; font-size: 0.95em; margin-bottom: 10px; }
+  .badges { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .badge {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 600;
+    border: 2px solid white;
+    box-shadow: 0 3px 10px var(--shadow);
+  }
+  .day-badge {
+    background: linear-gradient(135deg, #ffd6a5 0%, #ffb6d9 100%);
+    color: white;
+  }
+  .zodiac-badge {
+    background: linear-gradient(135deg, #a8e6cf 0%, #a0e7ff 100%);
+    color: var(--text);
+  }
+  .number-badge {
+    background: linear-gradient(135deg, #fff5a0 0%, #ffd6a5 100%);
+    color: var(--text);
+  }
+
+  .lucky-info {
+    background: white;
+    border-radius: 20px;
+    padding: 18px;
+    margin: 14px 0;
+    line-height: 1.9;
+    border: 2px solid #e8dcff;
+  }
+  .lucky-info p { display: flex; gap: 8px; align-items: flex-start; }
+  .lucky-info strong { color: var(--purple-dark); font-weight: 600; }
+
+  .section-title {
+    font-family: 'Bubblegum Sans', sans-serif;
+    color: var(--purple-dark);
+    margin: 22px 0 14px;
+    font-size: 1.3em;
+    text-align: center;
+    letter-spacing: 1px;
+    position: relative;
+  }
+  .section-title::before, .section-title::after {
+    content: '꒰ঌ';
+    color: var(--pink-dark);
+    margin: 0 10px;
+    font-size: 0.8em;
+  }
+  .section-title::after { content: '໒꒱'; }
+
+  .stone-card {
+    background: white;
+    padding: 18px;
+    border-radius: 24px;
+    margin-bottom: 14px;
+    box-shadow: 0 8px 20px var(--shadow);
+    border: 3px solid #fff0f9;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .stone-card::before {
+    content: '✨';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-size: 1.2em;
+    opacity: 0.6;
+  }
+  .stone-card:hover {
+    transform: translateY(-4px) rotate(-0.5deg);
+    box-shadow: 0 15px 30px var(--shadow);
+    border-color: var(--pink);
+  }
+  .stone-image {
+    width: 110px;
+    height: 110px;
+    border-radius: 22px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #fff0f9 0%, #e6f9ff 100%);
+    padding: 8px;
+    box-shadow: 0 6px 15px var(--shadow);
+    transition: transform 0.3s;
+  }
+  .stone-card:hover .stone-image {
+    transform: rotate(10deg) scale(1.1);
+  }
+  .stone-content { flex: 1; }
+  .stone-name {
+    font-size: 1.15em;
+    font-weight: 700;
+    color: var(--purple-dark);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .stone-emoji { font-size: 1.3em; }
+  .stone-desc {
+    color: #6b5580;
+    line-height: 1.6;
+    font-size: 0.95em;
+  }
+
+  .fortune-card {
+    background: linear-gradient(135deg, #fff5f9 0%, #f5edff 100%);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 3px solid #ffd6f0;
+    position: relative;
+    box-shadow: 0 8px 20px var(--shadow);
+  }
+  .fortune-card.aspect {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 16px 18px;
+  }
+  .aspect-icon {
+    font-size: 2em;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .aspect-title {
+    font-weight: 700;
+    color: var(--pink-dark);
+    margin-bottom: 4px;
+    font-size: 1.05em;
+  }
+  .aspect-text {
+    color: #6b5580;
+    line-height: 1.6;
+    font-size: 0.95em;
+  }
+  .score-bar {
+    display: inline-block;
+    margin-top: 6px;
+    letter-spacing: 2px;
+    font-size: 1.1em;
+  }
+
+  .chinese-card {
+    background: linear-gradient(135deg, #fff0e6 0%, #ffe6f0 100%);
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 14px;
+    border: 3px solid #ffb6a0;
+    box-shadow: 0 8px 20px rgba(255, 150, 100, 0.2);
+    text-align: center;
+    position: relative;
+  }
+  .chinese-card::before {
+    content: '☯';
+    position: absolute;
+    top: 10px;
+    left: 14px;
+    font-size: 1.3em;
+    color: #c84030;
+    opacity: 0.5;
+  }
+  .chinese-card::after {
+    content: '福';
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.3em;
+    color: #c84030;
+    opacity: 0.5;
+    font-family: serif;
+  }
+  .zodiac-animal {
+    font-size: 3.5em;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .zodiac-name-cn {
+    font-family: serif;
+    font-size: 1.6em;
+    color: #c84030;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .zodiac-name-th {
+    color: #8a4030;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .element-tag {
+    display: inline-block;
+    background: white;
+    color: #c84030;
+    padding: 5px 14px;
+    border-radius: 16px;
+    font-weight: 600;
+    border: 2px solid #ffb6a0;
+    font-size: 0.9em;
+    margin: 4px 4px 8px;
+  }
+
+  .dodont-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .dodont-card {
+    border-radius: 22px;
+    padding: 18px;
+    border: 3px solid;
+    box-shadow: 0 8px 20px var(--shadow);
+  }
+  .dodont-card.do {
+    background: linear-gradient(135deg, #e8fff0 0%, #d8f5e8 100%);
+    border-color: #88d8a8;
+  }
+  .dodont-card.dont {
+    background: linear-gradient(135deg, #ffe8e8 0%, #fff0e8 100%);
+    border-color: #ffa898;
+  }
+  .dodont-header {
+    font-family: 'Bubblegum Sans', sans-serif;
+    text-align: center;
+    font-size: 1.15em;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .dodont-card.do .dodont-header { color: #2e8a52; }
+  .dodont-card.dont .dodont-header { color: #c84030; }
+  .dodont-list {
+    list-style: none;
+    padding: 0;
+  }
+  .dodont-list li {
+    padding: 6px 0;
+    color: #4a3267;
+    font-size: 0.92em;
+    line-height: 1.5;
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .dodont-list li::before {
+    flex-shrink: 0;
+    font-size: 1em;
+  }
+  .dodont-card.do .dodont-list li::before { content: '✅'; }
+  .dodont-card.dont .dodont-list li::before { content: '🚫'; }
+
+  @media (max-width: 560px) {
+    .dodont-grid { grid-template-columns: 1fr; }
+  }
+
+  .footer-msg {
+    text-align: center;
+    padding: 18px;
+    margin-top: 18px;
+    background: linear-gradient(135deg, #ffd6f0 0%, #c9b6ff 100%);
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.05em;
+    box-shadow: 0 8px 20px var(--shadow);
+  }
+
+  .error {
+    background: #ffe6f0;
+    color: #d6478a;
+    padding: 14px;
+    border-radius: 18px;
+    margin-top: 14px;
+    text-align: center;
+    display: none;
+    border: 2px dashed #ff7eb9;
+    font-weight: 600;
+  }
+  .error.show { display: block; }
+
+  /* Tabs */
+  .tab-bar {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 22px;
+    padding: 5px;
+    box-shadow: 0 8px 20px var(--shadow);
+    z-index: 100;
+    display: flex;
+    gap: 3px;
+    border: 2px solid white;
+  }
+  .tab-bar button {
+    background: transparent;
+    color: var(--purple-dark);
+    padding: 8px 16px;
+    border: none;
+    border-radius: 18px;
+    font-size: 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s;
+    width: auto;
+    margin: 0;
+    box-shadow: none;
+    letter-spacing: 0;
+  }
+  .tab-bar button:hover { transform: none; }
+  .tab-bar button.active {
+    background: linear-gradient(135deg, #ff7eb9 0%, #9061f5 100%);
+    color: white;
+    box-shadow: 0 4px 10px var(--shadow);
+  }
+
+  .hidden { display: none !important; }
+
+  /* PDPA consent */
+  .consent-box {
+    background: #fff7fc;
+    border: 2px dashed var(--pink);
+    border-radius: 18px;
+    padding: 14px 16px;
+    margin: 10px 0 6px;
+    font-size: 0.9em;
+    color: #6b5580;
+    line-height: 1.6;
+  }
+  .consent-box label {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    color: #6b5580;
+    font-weight: 500;
+  }
+  .consent-box input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--pink-dark);
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .consent-box a {
+    color: var(--purple-dark);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+
+  /* Admin view */
+  .admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    border: 3px solid white;
+    border-radius: 28px;
+    box-shadow: 0 20px 50px var(--shadow);
+    padding: 30px;
+    position: relative;
+    z-index: 1;
+  }
+  .admin-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .admin-header h1 { font-size: 2em; margin-bottom: 4px; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: linear-gradient(135deg, #fff5f9 0%, #f0e6ff 100%);
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 6px 16px var(--shadow);
+  }
+  .stat-card.gradient-pink { background: linear-gradient(135deg, #ffd6f0 0%, #ffb6d9 100%); }
+  .stat-card.gradient-purple { background: linear-gradient(135deg, #e8dcff 0%, #c9b6ff 100%); }
+  .stat-card.gradient-mint { background: linear-gradient(135deg, #d8f5e8 0%, #a8e6cf 100%); }
+  .stat-card.gradient-yellow { background: linear-gradient(135deg, #fff5a0 0%, #ffd6a5 100%); }
+  .stat-icon { font-size: 1.8em; margin-bottom: 4px; }
+  .stat-value {
+    font-family: 'Bubblegum Sans', sans-serif;
+    font-size: 1.8em;
+    color: var(--purple-dark);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+  .stat-label {
+    color: #6b5580;
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+
+  .admin-toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  .admin-toolbar input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 16px;
+    border: 2px solid #f0e0ff;
+    border-radius: 16px;
+    font-family: inherit;
+  }
+  .btn-pill {
+    padding: 11px 20px;
+    border: none;
+    border-radius: 16px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.95em;
+    cursor: pointer;
+    width: auto;
+    margin: 0;
+    letter-spacing: 0;
+    transition: all 0.2s;
+  }
+  .btn-pill:hover { transform: translateY(-2px); }
+  .btn-export {
+    background: linear-gradient(135deg, #a8e6cf 0%, #88d8a8 100%);
+    color: #2e8a52;
+    box-shadow: 0 6px 14px rgba(136, 216, 168, 0.4);
+  }
+  .btn-clear {
+    background: linear-gradient(135deg, #ffa8a8 0%, #ff8888 100%);
+    color: white;
+    box-shadow: 0 6px 14px rgba(255, 136, 136, 0.4);
+  }
+  .btn-back {
+    background: linear-gradient(135deg, #c9b6ff 0%, #b794f6 100%);
+    color: white;
+    box-shadow: 0 6px 14px var(--shadow);
+  }
+
+  .table-wrap {
+    background: white;
+    border-radius: 20px;
+    overflow-x: auto;
+    box-shadow: 0 6px 16px var(--shadow);
+    border: 2px solid #f0e0ff;
+  }
+  table.submissions {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    min-width: 800px;
+  }
+  table.submissions thead {
+    background: linear-gradient(135deg, #ffd6f0 0%, #c9b6ff 100%);
+  }
+  table.submissions th {
+    text-align: left;
+    padding: 14px 12px;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 0.85em;
+    border-bottom: 2px solid white;
+    white-space: nowrap;
+  }
+  table.submissions td {
+    padding: 12px;
+    border-bottom: 1px solid #f8f0ff;
+    color: #4a3267;
+    vertical-align: middle;
+  }
+  table.submissions tbody tr:hover { background: #fff8fc; }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 600;
+    background: #f0e6ff;
+    color: var(--purple-dark);
+  }
+  .row-action {
+    background: #ffe6f0;
+    color: #d6478a;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+  .row-action:hover { background: #ffb6d9; color: white; }
+
+  .empty-state {
+    padding: 60px 20px;
+    text-align: center;
+    color: #9580b0;
+  }
+  .empty-state .icon { font-size: 3em; margin-bottom: 10px; }
+
+  @media (max-width: 560px) {
+    .container { padding: 28px 18px; border-radius: 28px; }
+    h1 { font-size: 2em; }
+    .row { grid-template-columns: 1fr; }
+    .stone-card { flex-direction: column; text-align: center; }
+    .stone-image { width: 130px; height: 130px; }
+    .stone-name { justify-content: center; }
+    .tab-bar { top: 10px; right: 10px; }
+    .tab-bar button { padding: 6px 12px; font-size: 0.85em; }
+    .admin-container { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tab-bar">
+  <button id="tabForm" class="active">🌸 หน้าหลัก</button>
+  <button id="tabAdmin">🔐 Admin</button>
+</div>
+
+<span class="sparkle" style="top: 8%; left: 8%;">✨</span>
+<span class="sparkle" style="top: 15%; right: 12%; animation-delay: -1s;">⭐</span>
+<span class="sparkle" style="bottom: 12%; left: 10%; animation-delay: -2s;">💫</span>
+<span class="sparkle" style="bottom: 18%; right: 8%; animation-delay: -0.5s;">🌟</span>
+<span class="sparkle" style="top: 50%; left: 4%; animation-delay: -1.5s;">✨</span>
+<span class="sparkle" style="top: 60%; right: 4%; animation-delay: -2.5s;">⭐</span>
+
+<div id="formView">
+<div class="container">
+  <span class="header-stars left">🎀</span>
+  <span class="header-stars right">🦄</span>
+
+  <div class="gem-icon">💎🌸✨</div>
+  <h1>หินมงคลของฉัน</h1>
+  <p class="subtitle">~ ค้นหาหินมงคลคู่ใจสไตล์น่ารัก ~</p>
+
+  <form id="stoneForm">
+    <div class="row">
+      <div class="form-group">
+        <label for="firstName">🌷 ชื่อ</label>
+        <input type="text" id="firstName" required placeholder="กรอกชื่อ">
+      </div>
+      <div class="form-group">
+        <label for="lastName">🌼 นามสกุล</label>
+        <input type="text" id="lastName" required placeholder="กรอกนามสกุล">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="birthDate">🎂 วันเกิด</label>
+      <input type="date" id="birthDate" required>
+    </div>
+    <div class="row">
+      <div class="form-group">
+        <label for="phone">📱 เบอร์โทรศัพท์</label>
+        <input type="text" id="phone" required placeholder="0XXXXXXXXX" maxlength="10" inputmode="numeric">
+      </div>
+      <div class="form-group">
+        <label for="email">📧 อีเมล</label>
+        <input type="text" id="email" required placeholder="your@email.com">
+      </div>
+    </div>
+
+    <div class="consent-box">
+      <label>
+        <input type="checkbox" id="consent" required>
+        <span>
+          ✅ ฉันยินยอมให้เก็บและประมวลผลข้อมูลส่วนบุคคล (ชื่อ-นามสกุล วันเกิด เบอร์โทร อีเมล)
+          เพื่อใช้วิเคราะห์หินมงคลและรับข่าวสารโปรโมชั่นเกี่ยวกับเครื่องประดับและหินมงคล
+          ตาม <a href="#" onclick="alert('นโยบายความเป็นส่วนตัว PDPA: ข้อมูลของคุณจะถูกเก็บเป็นความลับ และใช้เพื่อการตลาดที่เกี่ยวข้องเท่านั้น คุณสามารถขอลบข้อมูลได้ตลอดเวลา');return false;">นโยบายความเป็นส่วนตัว (PDPA)</a>
+        </span>
+      </label>
+    </div>
+
+    <button type="submit">✨ ดูหินมงคลเลย ✨</button>
+    <div class="error" id="errorMsg"></div>
+  </form>
+
+  <div class="result" id="result"></div>
+</div>
+</div>
+
+<div id="adminView" class="hidden">
+  <div class="admin-container">
+    <div class="admin-header">
+      <div class="gem-icon" style="font-size:2.5em;">📊✨</div>
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">ระบบจัดการข้อมูลลูกค้าและการตลาด</p>
+    </div>
+
+    <div class="stats-grid" id="statsGrid"></div>
+
+    <div class="admin-toolbar">
+      <input type="text" id="searchInput" placeholder="🔍 ค้นหา ชื่อ / นามสกุล / เบอร์ / อีเมล...">
+      <button class="btn-pill btn-export" onclick="exportCSV()">📥 Export CSV</button>
+      <button class="btn-pill btn-clear" onclick="clearAll()">🗑️ ล้างข้อมูลทั้งหมด</button>
+    </div>
+
+    <div class="table-wrap">
+      <table class="submissions" id="submissionsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>วันที่บันทึก</th>
+            <th>ชื่อ-นามสกุล</th>
+            <th>วันเกิด</th>
+            <th>📱 เบอร์โทร</th>
+            <th>📧 อีเมล</th>
+            <th>วันในสัปดาห์</th>
+            <th>ราศี</th>
+            <th>นักษัตร</th>
+            <th>การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody id="submissionsBody"></tbody>
+      </table>
+    </div>
+
+    <div id="emptyState" class="empty-state hidden">
+      <div class="icon">🌸</div>
+      <div>ยังไม่มีข้อมูลในระบบ</div>
+      <div style="font-size:0.9em;margin-top:6px;">เมื่อมีผู้ใช้กรอกแบบฟอร์ม ข้อมูลจะปรากฏที่นี่</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Cute kawaii stone SVG generator
+function kawaiiStone(c1, c2, shape = 'diamond') {
+  const shapes = {
+    diamond: `<polygon points='50,15 80,45 65,85 35,85 20,45' fill='url(#g)' stroke='${c2}' stroke-width='2.5'/>`,
+    heart: `<path d='M50,80 C20,55 20,25 35,25 C42,25 50,32 50,40 C50,32 58,25 65,25 C80,25 80,55 50,80 Z' fill='url(#g)' stroke='${c2}' stroke-width='2.5'/>`,
+    round: `<circle cx='50' cy='50' r='35' fill='url(#g)' stroke='${c2}' stroke-width='2.5'/>`,
+    teardrop: `<path d='M50,15 C30,15 25,45 25,60 C25,75 35,85 50,85 C65,85 75,75 75,60 C75,45 70,15 50,15 Z' fill='url(#g)' stroke='${c2}' stroke-width='2.5'/>`,
+    flower: `<g fill='url(#g)' stroke='${c2}' stroke-width='2'><circle cx='50' cy='28' r='12'/><circle cx='72' cy='50' r='12'/><circle cx='50' cy='72' r='12'/><circle cx='28' cy='50' r='12'/><circle cx='50' cy='50' r='14' fill='${c2}'/></g>`,
+    star: `<polygon points='50,15 58,38 82,38 63,52 70,78 50,62 30,78 37,52 18,38 42,38' fill='url(#g)' stroke='${c2}' stroke-width='2.5'/>`
+  };
+
+  const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'>
+    <defs>
+      <radialGradient id='g' cx='40%' cy='35%'>
+        <stop offset='0%' stop-color='white' stop-opacity='0.95'/>
+        <stop offset='40%' stop-color='${c1}'/>
+        <stop offset='100%' stop-color='${c2}'/>
+      </radialGradient>
+      <radialGradient id='blush' cx='50%' cy='50%'>
+        <stop offset='0%' stop-color='#ff9ec7' stop-opacity='0.8'/>
+        <stop offset='100%' stop-color='#ff9ec7' stop-opacity='0'/>
+      </radialGradient>
+    </defs>
+    ${shapes[shape]}
+    <!-- Sparkle highlight -->
+    <ellipse cx='38' cy='38' rx='6' ry='4' fill='white' opacity='0.9'/>
+    <ellipse cx='42' cy='30' rx='2' ry='3' fill='white' opacity='0.7'/>
+    <!-- Blush -->
+    <circle cx='38' cy='58' r='5' fill='url(#blush)'/>
+    <circle cx='62' cy='58' r='5' fill='url(#blush)'/>
+    <!-- Eyes -->
+    <ellipse cx='40' cy='52' rx='2.2' ry='3' fill='#3a2858'/>
+    <ellipse cx='60' cy='52' rx='2.2' ry='3' fill='#3a2858'/>
+    <circle cx='40.8' cy='51' r='0.8' fill='white'/>
+    <circle cx='60.8' cy='51' r='0.8' fill='white'/>
+    <!-- Smile -->
+    <path d='M44,62 Q50,67 56,62' stroke='#3a2858' stroke-width='1.8' fill='none' stroke-linecap='round'/>
+    <!-- Outside sparkles -->
+    <text x='12' y='25' font-size='10' fill='${c2}'>✦</text>
+    <text x='80' y='80' font-size='8' fill='${c2}'>✦</text>
+    <text x='82' y='20' font-size='6' fill='${c2}'>✧</text>
+  </svg>`;
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+}
+
+const dayStones = {
+  0: {
+    day: 'วันอาทิตย์ ☀️',
+    color: 'สีแดง / ส้ม',
+    element: 'ธาตุไฟ 🔥',
+    stones: [
+      { name: 'แหวนทับทิม', emoji: '❤️', desc: 'หินแห่งความรัก พลังอำนาจ เสริมความเป็นตัวเอง ใส่แล้วปังมาก!', img: kawaiiStone('#ff8fa3', '#c0142c', 'heart') },
+      { name: 'กำไลโกเมน', emoji: '🍓', desc: 'เสริมพลังงาน ความมั่นใจ ดึงดูดความสำเร็จ ใส่แล้วฟีลเควียน', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
+      { name: 'จี้ซันสโตน', emoji: '🌞', desc: 'หินดวงอาทิตย์ มอบความอบอุ่น ความสุข โชคลาภแบบ sunny vibes', img: kawaiiStone('#ffc070', '#e88c1a', 'star') }
+    ],
+    trait: 'เกิดวันอาทิตย์ = บุคลิกเด่น เป็นผู้นำ มีออร่า เด่นในทุกที่ที่ไป'
+  },
+  1: {
+    day: 'วันจันทร์ 🌙',
+    color: 'สีเหลืองนวล / ขาวมุก',
+    element: 'ธาตุน้ำ 💧',
+    stones: [
+      { name: 'สร้อยมุก', emoji: '🤍', desc: 'หินบริสุทธิ์ เสริมเสน่ห์ ความสง่างาม ดู classy แบบ soft girl', img: kawaiiStone('#fdf6e3', '#e6d5b8', 'round') },
+      { name: 'แหวนมูนสโตน', emoji: '🌙', desc: 'หินดวงจันทร์ เสริมสัญชาตญาณ เมตตา รักแท้ ฟีลเควีนของคนรัก', img: kawaiiStone('#e8e8ff', '#a8a8d8', 'teardrop') },
+      { name: 'จี้โอปอล', emoji: '🦄', desc: 'หินจินตนาการ ความคิดสร้างสรรค์ ใส่แล้วชีวิตเป็น dreamcore', img: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower') }
+    ],
+    trait: 'เกิดวันจันทร์ = จิตใจอ่อนโยน อ่อนไหว ฟีล soft girl/boy มีเมตตา'
+  },
+  2: {
+    day: 'วันอังคาร 🔥',
+    color: 'สีชมพู / แดงเข้ม',
+    element: 'ธาตุไฟ 🔥',
+    stones: [
+      { name: 'กำไลปะการังแดง', emoji: '🪸', desc: 'หินกล้าหาญ ป้องกันภัย เสริมสุขภาพ ใส่แล้วเบส energy ฟิต', img: kawaiiStone('#ff9c9c', '#d63030', 'flower') },
+      { name: 'สร้อยโรสควอตซ์', emoji: '💗', desc: 'หินแห่งความรัก เพิ่มเสน่ห์ ดึงดูดเนื้อคู่ ใส่ปุ๊บ crush มาเอง', img: kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
+      { name: 'แหวนทัวร์มาลีนชมพู', emoji: '💖', desc: 'หินความรัก ความกล้าหาญ ใส่แล้วเปย์ตัวเองก่อนใคร', img: kawaiiStone('#ffb6d9', '#e872a8', 'diamond') }
+    ],
+    trait: 'เกิดวันอังคาร = พลังเยอะ กล้าหาญ ตรงไปตรงมา ฟีลgirlboss/itboy'
+  },
+  3: {
+    day: 'วันพุธ 🌿',
+    color: 'สีเขียว',
+    element: 'ธาตุดิน 🌱',
+    stones: [
+      { name: 'แหวนมรกต', emoji: '💚', desc: 'หินปัญญา ความรอบรู้ สำเร็จด้านการเงิน เป็น CEO ของชีวิต', img: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
+      { name: 'กำไลหยก', emoji: '🍵', desc: 'นำพาโชคลาภ สุขภาพดี ความสมดุล สาย matcha latte ต้องมี', img: kawaiiStone('#a8d8b8', '#4ca878', 'round') },
+      { name: 'จี้เพอริดอท', emoji: '🍀', desc: 'หินรุ่งเรือง สดใส ขจัดพลังลบ good vibes only', img: kawaiiStone('#c8e898', '#88c050', 'teardrop') }
+    ],
+    trait: 'เกิดวันพุธ = ไหวพริบดี ฉลาด พูดเก่ง เจรจาเทพ สาย smart cookie'
+  },
+  4: {
+    day: 'วันพฤหัสบดี 🌟',
+    color: 'สีเหลืองทอง / ส้ม',
+    element: 'ธาตุลม 🍃',
+    stones: [
+      { name: 'แหวนบุษราคัม', emoji: '💛', desc: 'หินความมั่งคั่ง ปัญญา สำเร็จในวิชาชีพ ฟีลกูรูประจำกลุ่ม', img: kawaiiStone('#ffe888', '#e8c020', 'diamond') },
+      { name: 'กำไลซิทริน', emoji: '🌟', desc: '"หินพ่อค้า" ดึงดูดเงินทอง โชคลาภ ทำธุรกิจรุ่ง', img: kawaiiStone('#ffd870', '#f0a830', 'star') },
+      { name: 'จี้โทแพซเหลือง', emoji: '✨', desc: 'หินสติปัญญา ความรู้ ก้าวหน้าในการเรียน A+ทุกวิชา', img: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop') }
+    ],
+    trait: 'เกิดวันพฤหัส = ใจดี เป็นครู มีความรู้ ศีลธรรมสูง ฟีล mentor'
+  },
+  5: {
+    day: 'วันศุกร์ 💙',
+    color: 'สีฟ้า / น้ำเงิน',
+    element: 'ธาตุน้ำ 💧',
+    stones: [
+      { name: 'แหวนเพชร', emoji: '💎', desc: 'หินความสูงส่ง รักนิรันดร์ ใส่แล้วเป็น main character', img: kawaiiStone('#f0f4ff', '#c8d0e8', 'diamond') },
+      { name: 'สร้อยอะความารีน', emoji: '🌊', desc: 'หินความสงบ การสื่อสาร รักบริสุทธิ์ ocean vibes', img: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop') },
+      { name: 'ต่างหูบลูโทแพซ', emoji: '🔷', desc: 'เสริมเสน่ห์ ความสำเร็จในรัก เข้าสังคมเก่ง', img: kawaiiStone('#88c0e8', '#3a8cc0', 'heart') }
+    ],
+    trait: 'เกิดวันศุกร์ = เสน่ห์เยอะ รักความสวยงาม โรแมนติก ฟีล aesthetic'
+  },
+  6: {
+    day: 'วันเสาร์ 💜',
+    color: 'สีม่วง / ดำ',
+    element: 'ธาตุไฟ 🔥',
+    stones: [
+      { name: 'แหวนไพลิน', emoji: '💙', desc: 'เสริมบารมี อำนาจ ปัญญา ความมั่นคง royalty vibes', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond') },
+      { name: 'กำไลอเมทิสต์', emoji: '💜', desc: 'หินจิตวิญญาณ ขจัดพลังลบ เสริมสมาธิ สาย spiritual healing', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'round') },
+      { name: 'จี้ออบซิเดียน', emoji: '🖤', desc: 'หินดำคุ้มครอง ป้องกันภัย ความมั่นคงทางใจ dark academia', img: kawaiiStone('#5a5570', '#1a1a1a', 'teardrop') }
+    ],
+    trait: 'เกิดวันเสาร์ = อดทน หนักแน่น มุ่งมั่น ปัญญาลึก ฟีล mysterious'
+  }
+};
+
+const zodiacSigns = [
+  { name: 'มังกร (Capricorn)', emoji: '♑', stone: 'การ์เน็ต', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'round'), start: [12, 22], end: [1, 19] },
+  { name: 'กุมภ์ (Aquarius)', emoji: '♒', stone: 'อเมทิสต์', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'diamond'), start: [1, 20], end: [2, 18] },
+  { name: 'มีน (Pisces)', emoji: '♓', stone: 'อะความารีน', img: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop'), start: [2, 19], end: [3, 20] },
+  { name: 'เมษ (Aries)', emoji: '♈', stone: 'เพชร', img: kawaiiStone('#f0f4ff', '#c8d0e8', 'star'), start: [3, 21], end: [4, 19] },
+  { name: 'พฤษภ (Taurus)', emoji: '♉', stone: 'มรกต', img: kawaiiStone('#7eddae', '#1a8a4a', 'flower'), start: [4, 20], end: [5, 20] },
+  { name: 'เมถุน (Gemini)', emoji: '♊', stone: 'มุก', img: kawaiiStone('#fdf6e3', '#e6d5b8', 'round'), start: [5, 21], end: [6, 20] },
+  { name: 'กรกฎ (Cancer)', emoji: '♋', stone: 'ทับทิม', img: kawaiiStone('#ff8fa3', '#c0142c', 'heart'), start: [6, 21], end: [7, 22] },
+  { name: 'สิงห์ (Leo)', emoji: '♌', stone: 'เพอริดอท', img: kawaiiStone('#c8e898', '#88c050', 'star'), start: [7, 23], end: [8, 22] },
+  { name: 'กันย์ (Virgo)', emoji: '♍', stone: 'แซฟไฟร์', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond'), start: [8, 23], end: [9, 22] },
+  { name: 'ตุลย์ (Libra)', emoji: '♎', stone: 'โอปอล', img: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower'), start: [9, 23], end: [10, 22] },
+  { name: 'พิจิก (Scorpio)', emoji: '♏', stone: 'โทแพซ', img: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop'), start: [10, 23], end: [11, 21] },
+  { name: 'ธนู (Sagittarius)', emoji: '♐', stone: 'เทอร์ควอยซ์', img: kawaiiStone('#a0e0e8', '#40b0c0', 'round'), start: [11, 22], end: [12, 21] }
+];
+
+function getZodiac(month, day) {
+  for (const sign of zodiacSigns) {
+    const [sm, sd] = sign.start;
+    const [em, ed] = sign.end;
+    if (sm === em) {
+      if (month === sm && day >= sd && day <= ed) return sign;
+    } else {
+      if ((month === sm && day >= sd) || (month === em && day <= ed)) return sign;
+    }
+  }
+  return zodiacSigns[0];
+}
+
+// Chinese Zodiac (12 animals, 12-year cycle)
+const chineseZodiac = [
+  { en: 'Rat', th: 'ชวด (หนู)', cn: '鼠', emoji: '🐭', trait: 'ฉลาด คล่องแคล่ว ปรับตัวเก่ง' },
+  { en: 'Ox', th: 'ฉลู (วัว)', cn: '牛', emoji: '🐂', trait: 'อดทน ขยัน หนักแน่น เชื่อถือได้' },
+  { en: 'Tiger', th: 'ขาล (เสือ)', cn: '虎', emoji: '🐯', trait: 'กล้าหาญ มีผู้นำ มีพลัง' },
+  { en: 'Rabbit', th: 'เถาะ (กระต่าย)', cn: '兔', emoji: '🐰', trait: 'อ่อนโยน สุภาพ มีไหวพริบ' },
+  { en: 'Dragon', th: 'มะโรง (มังกร)', cn: '龍', emoji: '🐲', trait: 'มีบารมี เด่นดัง พลังเหนือคนทั่วไป' },
+  { en: 'Snake', th: 'มะเส็ง (งู)', cn: '蛇', emoji: '🐍', trait: 'ลึกซึ้ง ฉลาด เก็บความลับเก่ง' },
+  { en: 'Horse', th: 'มะเมีย (ม้า)', cn: '馬', emoji: '🐴', trait: 'รักอิสระ มีพลัง กระตือรือร้น' },
+  { en: 'Goat', th: 'มะแม (แพะ)', cn: '羊', emoji: '🐐', trait: 'อ่อนหวาน มีเมตตา ศิลปะดี' },
+  { en: 'Monkey', th: 'วอก (ลิง)', cn: '猴', emoji: '🐵', trait: 'ฉลาด มีไหวพริบ สนุกสนาน' },
+  { en: 'Rooster', th: 'ระกา (ไก่)', cn: '雞', emoji: '🐓', trait: 'ตรงไปตรงมา ขยัน ใส่ใจรายละเอียด' },
+  { en: 'Dog', th: 'จอ (หมา)', cn: '狗', emoji: '🐶', trait: 'ซื่อสัตย์ จริงใจ รักความยุติธรรม' },
+  { en: 'Pig', th: 'กุน (หมู)', cn: '猪', emoji: '🐷', trait: 'ใจดี โอบอ้อมอารี รักความสบาย' }
+];
+
+const fiveElements = ['ไม้ 🌳', 'ไฟ 🔥', 'ดิน ⛰️', 'ทอง ⚙️', 'น้ำ 💧'];
+
+function getChineseZodiac(year) {
+  const idx = ((year - 1900) % 12 + 12) % 12;
+  // 1900 = Rat
+  return chineseZodiac[idx];
+}
+
+function getChineseElement(year) {
+  // Heavenly stems cycle of 10 = 5 elements x 2 (yin/yang)
+  const idx = Math.floor((((year - 1900) % 10) + 10) % 10 / 2);
+  // 1900 = Metal (Geng-Zi). Adjusted: 1900%10=0 -> Metal
+  const elementOrder = [3, 3, 4, 4, 0, 0, 1, 1, 2, 2]; // index in fiveElements
+  return fiveElements[elementOrder[((year - 1900) % 10 + 10) % 10]];
+}
+
+// Simple deterministic hash
+function hashStr(s) {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h) + s.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+
+function pick(arr, seed) {
+  return arr[seed % arr.length];
+}
+
+// Daily fortune pools (รายด้าน)
+const fortunePool = {
+  love: [
+    'วันนี้เสน่ห์ปังมาก! คนรอบข้างจะมองคุณเป็นพิเศษ',
+    'ระวังคนเก่ากลับเข้ามา ตัดสินใจดีๆ ก่อนตอบ',
+    'คนโสดอาจได้เจอ crush ในที่ที่ไม่คาดคิด',
+    'คู่รักจะมีโอกาสได้คุยเรื่องอนาคต ฟังกันให้ดี',
+    'หัวใจเบิกบาน ความรักเข้ามาผ่านการช่วยเหลือคนอื่น',
+    'ระวังอารมณ์เผลอ อย่าโพสต์อะไรลง social ตอนน้อยใจ',
+    'มีโอกาสปรับความเข้าใจกับคนที่ห่างกันไป',
+    'ความรักวันนี้ดีในเชิงเพื่อน อย่าเพิ่งรีบนิยามอะไร'
+  ],
+  money: [
+    'ดวงการเงินดี อาจมีรายได้พิเศษเข้ามาแบบไม่คาดคิด',
+    'ระวังการช้อปแบบหุนหัน เก็บไว้ใช้ตอนจำเป็นดีกว่า',
+    'มีโอกาสได้รับข้อเสนอดีๆ ด้านงานหรือธุรกิจ',
+    'ไม่ใช่วันลงทุนหุ้น/คริปโต รอจังหวะให้นิ่งก่อน',
+    'ลองตรวจสอบกระเป๋าเก่า บัญชีเก่า อาจมีของเซอร์ไพรส์',
+    'เงินที่ให้คนอื่นยืมมีโอกาสได้คืน ลองทักถาม',
+    'ค่าใช้จ่ายงอกเรื่อง bill หรือซ่อมแซม เตรียมงบไว้',
+    'ดวงค้าขายดี โพสต์ขายของจะมีคนมาจอง'
+  ],
+  work: [
+    'งานคล่อง ไอเดียดี เสนอเจ้านายแล้วจะปัง',
+    'มีโอกาสได้รับมอบหมายงานใหม่ที่ท้าทาย ตอบรับเลย',
+    'ระวังเพื่อนร่วมงานพูดต่อหลังไมค์ ระวังคำพูด',
+    'งานเก่าที่ค้างจะเคลียร์ได้ ใช้สมาธิวันนี้',
+    'การเรียนปังมาก จดเล็คเชอร์ดีๆ จะใช้สอบได้แน่นอน',
+    'อย่าเพิ่งตัดสินใจลาออก/ย้ายงาน รอเดือนหน้าก่อน',
+    'พบเจอ mentor หรือคนที่ช่วยเปิดมุมมองใหม่',
+    'meeting วันนี้ระวังพูดมากเกิน ฟังให้เยอะ'
+  ],
+  health: [
+    'พลังงานดี ออกกำลังกายจะได้ผลเป็นพิเศษ',
+    'ระวังพักผ่อนน้อย เข้านอนก่อน 23:00 น.',
+    'ดื่มน้ำเยอะๆ ระวังของหวานเกินไป',
+    'สายตา/คอ/บ่าอาจเมื่อย พักจากหน้าจอบ้าง',
+    'อารมณ์มีผลกับสุขภาพ ลองทำสมาธิ 10 นาที',
+    'อาหารวันนี้ระวัง ของเผ็ดจัด/มันจัด อาจไม่ถูกท้อง',
+    'ออกไปรับแดดอ่อนๆ ช่วงเช้า จะรู้สึกสดชื่น',
+    'ระวังอุบัติเหตุเล็กน้อย เดินทางอย่างมีสติ'
+  ]
+};
+
+// Daily DO list (อิงหน่ำเอี๊ยง)
+const doPool = [
+  'สวมใส่เครื่องประดับหินมงคลของคุณ ✨',
+  'ทำบุญ ตักบาตร หรือบริจาคเล็กๆ น้อยๆ',
+  'ทักทายผู้ใหญ่ในครอบครัว/หัวหน้างาน',
+  'จัดโต๊ะทำงานให้สะอาด ทิ้งของเก่าที่ไม่ใช้',
+  'ดื่มชาหรือกาแฟร้อนตอนเช้า เริ่มวันแบบสงบ',
+  'ใส่เสื้อผ้าสีมงคลประจำตัว เพิ่มพลัง',
+  'ออกกำลังกายเบาๆ หรือเดิน 20 นาที',
+  'เปิดเพลงที่ชอบ เริ่มวันด้วย good vibes',
+  'จดเป้าหมายของวัน 3 ข้อ ลงสมุด',
+  'ขอบคุณตัวเองสำหรับสิ่งดีๆ ที่ทำ',
+  'ส่งข้อความหาเพื่อน/ครอบครัวที่ไม่ได้คุยนาน',
+  'เปิดหน้าต่างให้ลมโชย ระบายอากาศในห้อง',
+  'จุดเทียนหอม/กำยานเพื่อเสริมพลังบ้าน',
+  'พกของมงคลสีแดงหรือทอง ติดตัวไว้',
+  'ทำอาหารกินเองอย่างน้อย 1 มื้อ'
+];
+
+// Daily DON'T list (อิงหน่ำเอี๊ยง)
+const dontPool = [
+  'งดทะเลาะกับคนในครอบครัว วันนี้ดวงปาก',
+  'หลีกเลี่ยงการกู้ยืม/ค้ำประกันให้คนอื่น',
+  'งดตัดผม/ตัดเล็บถ้าไม่จำเป็น',
+  'อย่าโพสต์เรื่องเครียดลง social media',
+  'งดดื่มแอลกอฮอล์เกินขนาด',
+  'อย่าเซ็นเอกสารสำคัญโดยไม่อ่านละเอียด',
+  'หลีกเลี่ยงการช้อปออนไลน์แบบไม่จำเป็น',
+  'งดเข้าร่วมงานศพถ้าไม่จำเป็น (ดวงไม่หนา)',
+  'อย่าให้ของเก่าที่หักหรือชำรุดเป็นของขวัญ',
+  'งดพูดเรื่องลบ/นินทาคนอื่น ดวงปากเด่น',
+  'อย่าเริ่มเปลี่ยนงาน/ย้ายบ้านในวันนี้',
+  'หลีกเลี่ยงการกินอาหารแปลกที่ไม่เคยทาน',
+  'งดสีดำล้วนหากเข้างานสำคัญ',
+  'อย่าตื่นสาย เกิดผลเสียทั้งวัน',
+  'งดการตัดสินใจสำคัญตอนอารมณ์ไม่ดี'
+];
+
+function calculateLifeNumber(dateStr) {
+  const digits = dateStr.replace(/-/g, '').split('').map(Number);
+  let sum = digits.reduce((a, b) => a + b, 0);
+  while (sum > 9) {
+    sum = sum.toString().split('').map(Number).reduce((a, b) => a + b, 0);
+  }
+  return sum;
+}
+
+const numerologyStones = {
+  1: { stone: 'ทับทิม / ซิทริน', meaning: 'ผู้นำ มีพลังสร้างสรรค์ main character energy!', img: kawaiiStone('#ff8fa3', '#c0142c', 'star') },
+  2: { stone: 'มุก / มูนสโตน', meaning: 'นักประสานงาน อ่อนโยน ฟีล soft & sweet', img: kawaiiStone('#e8e8ff', '#a8a8d8', 'round') },
+  3: { stone: 'อเมทิสต์ / บุษราคัม', meaning: 'นักสื่อสาร มีเสน่ห์ ใครๆก็รัก it girl/boy vibes', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
+  4: { stone: 'มรกต / หยก', meaning: 'มั่นคง หนักแน่น เป็นที่พึ่งของทุกคน reliable bestie', img: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
+  5: { stone: 'เทอร์ควอยซ์ / อะความารีน', meaning: 'รักอิสระ ผจญภัย ชอบเดินทาง wanderlust soul', img: kawaiiStone('#a0e0e8', '#40b0c0', 'teardrop') },
+  6: { stone: 'มรกต / โรสควอตซ์', meaning: 'รักครอบครัว มีเมตตา caregiver แห่งกลุ่มเพื่อน', img: kawaiiStone('#ffd6e0', '#f5a5c0', 'flower') },
+  7: { stone: 'อเมทิสต์ / แซฟไฟร์', meaning: 'นักคิด ปัญญาลึก สาย deep thinker / philosopher', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'star') },
+  8: { stone: 'นิล / โอนิกซ์', meaning: 'มุ่งสู่ความสำเร็จ มั่งคั่ง boss babe / boss man', img: kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
+  9: { stone: 'การ์เน็ต / ทับทิม', meaning: 'เอื้อเฟื้อ มีอุดมการณ์ ฟีลคนที่จะเปลี่ยนโลก', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'heart') }
+};
+
+/* ---------- Storage layer ---------- */
+const STORAGE_KEY = 'lucky_stone_submissions';
+let submissions = [];
+try {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) submissions = JSON.parse(raw);
+} catch (e) { console.warn('localStorage read failed:', e); }
+
+function saveSubmissions() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions)); }
+  catch (e) { console.warn('localStorage write failed:', e); }
+}
+
+/* ---------- Tab switching ---------- */
+const tabFormBtn = document.getElementById('tabForm');
+const tabAdminBtn = document.getElementById('tabAdmin');
+const formView = document.getElementById('formView');
+const adminView = document.getElementById('adminView');
+
+function showView(view) {
+  if (view === 'admin') {
+    formView.classList.add('hidden');
+    adminView.classList.remove('hidden');
+    tabFormBtn.classList.remove('active');
+    tabAdminBtn.classList.add('active');
+    location.hash = 'admin';
+    renderAdmin();
+  } else {
+    formView.classList.remove('hidden');
+    adminView.classList.add('hidden');
+    tabFormBtn.classList.add('active');
+    tabAdminBtn.classList.remove('active');
+    location.hash = '';
+  }
+}
+tabFormBtn.addEventListener('click', () => showView('form'));
+tabAdminBtn.addEventListener('click', () => showView('admin'));
+if (location.hash === '#admin') showView('admin');
+
+/* ---------- Phone input: digits only ---------- */
+const phoneInput = document.getElementById('phone');
+phoneInput.addEventListener('input', (e) => {
+  e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10);
+});
+
+/* ---------- Form submit ---------- */
+document.getElementById('stoneForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const birthDate = document.getElementById('birthDate').value;
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const consent = document.getElementById('consent').checked;
+  const errorEl = document.getElementById('errorMsg');
+  errorEl.classList.remove('show');
+
+  if (!firstName || !lastName || !birthDate || !phone || !email) {
+    errorEl.textContent = '🥺 อย่าลืมกรอกข้อมูลให้ครบนะ~';
+    errorEl.classList.add('show');
+    return;
+  }
+  if (!/^0\d{9}$/.test(phone)) {
+    errorEl.textContent = '📱 เบอร์โทรไม่ถูกต้อง (ต้องเป็น 10 หลัก ขึ้นต้นด้วย 0)';
+    errorEl.classList.add('show');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    errorEl.textContent = '📧 อีเมลไม่ถูกต้อง ลองตรวจสอบดูน้า';
+    errorEl.classList.add('show');
+    return;
+  }
+  if (!consent) {
+    errorEl.textContent = '✅ กรุณายินยอมเงื่อนไข PDPA ก่อนนะ';
+    errorEl.classList.add('show');
+    return;
+  }
+
+  const date = new Date(birthDate);
+  const today = new Date();
+  if (date > today) {
+    errorEl.textContent = '😅 วันเกิดอยู่ในอนาคตอะ ลองใหม่น้า';
+    errorEl.classList.add('show');
+    return;
+  }
+
+  const dayOfWeek = date.getDay();
+  const dayInfo = dayStones[dayOfWeek];
+  const zodiac = getZodiac(date.getMonth() + 1, date.getDate());
+  const lifeNumber = calculateLifeNumber(birthDate);
+  const numInfo = numerologyStones[lifeNumber];
+  const cnZodiac = getChineseZodiac(date.getFullYear());
+  const cnElement = getChineseElement(date.getFullYear());
+
+  const buddhistYear = date.getFullYear() + 543;
+  const thaiMonths = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+  const formattedDate = `${date.getDate()} ${thaiMonths[date.getMonth()]} ${buddhistYear}`;
+
+  // Daily fortune (deterministic per person per day)
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const todayThai = (() => {
+    const t = new Date();
+    return `${t.getDate()} ${thaiMonths[t.getMonth()]} ${t.getFullYear() + 543}`;
+  })();
+  const seedBase = hashStr(firstName + lastName + birthDate + todayStr);
+  const overallScore = (seedBase % 30) + 70; // 70-99
+  const stars = '⭐'.repeat(Math.round(overallScore / 20)) + '☆'.repeat(5 - Math.round(overallScore / 20));
+
+  const loveText = pick(fortunePool.love, seedBase);
+  const moneyText = pick(fortunePool.money, seedBase >> 3);
+  const workText = pick(fortunePool.work, seedBase >> 6);
+  const healthText = pick(fortunePool.health, seedBase >> 9);
+
+  // Pick 4 unique do's and 4 unique don'ts
+  const pickN = (pool, n, seed) => {
+    const result = [];
+    const used = new Set();
+    let s = seed;
+    while (result.length < n && used.size < pool.length) {
+      const idx = s % pool.length;
+      if (!used.has(idx)) {
+        used.add(idx);
+        result.push(pool[idx]);
+      }
+      s = Math.floor(s / 3) + idx * 7 + 1;
+    }
+    return result;
+  };
+  const doList = pickN(doPool, 5, seedBase);
+  const dontList = pickN(dontPool, 5, seedBase >> 2);
+
+  const luckyColor = pick(['แดง','ชมพู','เหลืองทอง','ส้ม','เขียวมิ้นต์','ฟ้าน้ำทะเล','ม่วงลาเวนเดอร์','ขาวมุก'], seedBase >> 11);
+  const luckyNum = (seedBase % 9) + 1;
+  const luckyDirection = pick(['ทิศเหนือ','ทิศใต้','ทิศตะวันออก','ทิศตะวันตก','ทิศตะวันออกเฉียงเหนือ','ทิศตะวันตกเฉียงใต้'], seedBase >> 14);
+
+  const stoneCard = (img, emoji, name, desc) => `
+    <div class="stone-card">
+      <img class="stone-image" src="${img}" alt="${name}">
+      <div class="stone-content">
+        <div class="stone-name"><span class="stone-emoji">${emoji}</span>${name}</div>
+        <div class="stone-desc">${desc}</div>
+      </div>
+    </div>
+  `;
+
+  let stonesHtml = dayInfo.stones.map(s => stoneCard(s.img, s.emoji, s.name, s.desc)).join('');
+
+  document.getElementById('result').innerHTML = `
+    <h2>💖 ผลวิเคราะห์ของคุณ 💖</h2>
+
+    <div class="person-info">
+      <div class="person-name">🌟 ${firstName} ${lastName} 🌟</div>
+      <div class="person-date">เกิดวันที่ ${formattedDate}</div>
+      <div class="badges">
+        <span class="badge day-badge">${dayInfo.day}</span>
+        <span class="badge zodiac-badge">${zodiac.emoji} ${zodiac.name}</span>
+        <span class="badge number-badge">🔢 เลขชีวิต ${lifeNumber}</span>
+      </div>
+    </div>
+
+    <div class="lucky-info">
+      <p>🎨 <span><strong>สีมงคล:</strong> ${dayInfo.color}</span></p>
+      <p>🌟 <span><strong>ธาตุ:</strong> ${dayInfo.element}</span></p>
+      <p>💫 <span><strong>นิสัย:</strong> ${dayInfo.trait}</span></p>
+      <p>✨ <span><strong>Vibe เลขชีวิต:</strong> ${numInfo.meaning}</span></p>
+    </div>
+
+    <div class="section-title">นักษัตรจีน หน่ำเอี๊ยง</div>
+    <div class="chinese-card">
+      <div class="zodiac-animal">${cnZodiac.emoji}</div>
+      <div class="zodiac-name-cn">${cnZodiac.cn} · ปี${cnZodiac.en}</div>
+      <div class="zodiac-name-th">ปี${cnZodiac.th}</div>
+      <div>
+        <span class="element-tag">ธาตุ: ${cnElement}</span>
+      </div>
+      <div class="aspect-text" style="margin-top:6px;">${cnZodiac.trait}</div>
+    </div>
+
+    <div class="section-title">คำทำนายประจำวัน (${todayThai})</div>
+    <div class="fortune-card" style="text-align:center;">
+      <div style="font-size:1.1em;font-weight:700;color:var(--purple-dark);margin-bottom:6px;">
+        🔮 ดวงโดยรวมวันนี้: ${overallScore}/100
+      </div>
+      <div class="score-bar">${stars}</div>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px;">
+        <span class="badge day-badge">🎨 สีเด่น: ${luckyColor}</span>
+        <span class="badge zodiac-badge">🔢 เลขเด่น: ${luckyNum}</span>
+        <span class="badge number-badge">🧭 ${luckyDirection}</span>
+      </div>
+    </div>
+
+    <div class="fortune-card aspect">
+      <div class="aspect-icon">💖</div>
+      <div>
+        <div class="aspect-title">ความรัก</div>
+        <div class="aspect-text">${loveText}</div>
+      </div>
+    </div>
+
+    <div class="fortune-card aspect">
+      <div class="aspect-icon">💰</div>
+      <div>
+        <div class="aspect-title">การเงิน</div>
+        <div class="aspect-text">${moneyText}</div>
+      </div>
+    </div>
+
+    <div class="fortune-card aspect">
+      <div class="aspect-icon">💼</div>
+      <div>
+        <div class="aspect-title">การงาน / การเรียน</div>
+        <div class="aspect-text">${workText}</div>
+      </div>
+    </div>
+
+    <div class="fortune-card aspect">
+      <div class="aspect-icon">🧘</div>
+      <div>
+        <div class="aspect-title">สุขภาพ</div>
+        <div class="aspect-text">${healthText}</div>
+      </div>
+    </div>
+
+    <div class="section-title">สิ่งที่ควรทำ / ไม่ควรทำวันนี้</div>
+    <div class="dodont-grid">
+      <div class="dodont-card do">
+        <div class="dodont-header">🌸 สิ่งที่ควรทำ 🌸</div>
+        <ul class="dodont-list">
+          ${doList.map(d => `<li>${d}</li>`).join('')}
+        </ul>
+      </div>
+      <div class="dodont-card dont">
+        <div class="dodont-header">⚠️ สิ่งที่ควรเลี่ยง ⚠️</div>
+        <ul class="dodont-list">
+          ${dontList.map(d => `<li>${d}</li>`).join('')}
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title">หินมงคลประจำวันเกิด</div>
+    ${stonesHtml}
+
+    <div class="section-title">หินตามราศี ${zodiac.emoji}</div>
+    ${stoneCard(zodiac.img, zodiac.emoji, zodiac.stone + ' (ราศี' + zodiac.name + ')', 'หินคู่ดวงตามราศี เสริมพลังจักรวาลและพรหมลิขิตให้ปังตลอดปี')}
+
+    <div class="section-title">หินตามเลขชีวิต ${lifeNumber}</div>
+    ${stoneCard(numInfo.img, '🔮', numInfo.stone, numInfo.meaning + ' เหมาะกับคนเลขชีวิต ' + lifeNumber + ' สุดๆ')}
+
+    <div class="footer-msg">
+      ✨ ขอให้หินมงคลพา ${firstName} ปังตลอดไปน้า 💕<br>
+      Lucky vibes only~ 🌸
+    </div>
+  `;
+  // Save submission to localStorage
+  submissions.push({
+    id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
+    timestamp: new Date().toISOString(),
+    firstName, lastName, birthDate, phone, email,
+    dayOfWeek: dayInfo.day,
+    zodiac: zodiac.name,
+    cnZodiac: cnZodiac.th,
+    cnZodiacEmoji: cnZodiac.emoji,
+    lifeNumber,
+    consent: true
+  });
+  saveSubmissions();
+
+  document.getElementById('result').classList.add('show');
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
+/* ---------- Admin rendering ---------- */
+function renderAdmin() {
+  const grid = document.getElementById('statsGrid');
+  const total = submissions.length;
+
+  // Aggregate stats
+  const dayCount = {}, zodiacCount = {}, cnCount = {};
+  submissions.forEach(s => {
+    dayCount[s.dayOfWeek] = (dayCount[s.dayOfWeek] || 0) + 1;
+    zodiacCount[s.zodiac] = (zodiacCount[s.zodiac] || 0) + 1;
+    cnCount[s.cnZodiac] = (cnCount[s.cnZodiac] || 0) + 1;
+  });
+  const topOf = (obj) => {
+    const entries = Object.entries(obj);
+    if (entries.length === 0) return '-';
+    entries.sort((a, b) => b[1] - a[1]);
+    return entries[0][0] + ' (' + entries[0][1] + ')';
+  };
+  const today = new Date().toISOString().slice(0, 10);
+  const todayCount = submissions.filter(s => s.timestamp.slice(0, 10) === today).length;
+
+  grid.innerHTML = `
+    <div class="stat-card gradient-pink">
+      <div class="stat-icon">👥</div>
+      <div class="stat-value">${total}</div>
+      <div class="stat-label">รวมทั้งหมด</div>
+    </div>
+    <div class="stat-card gradient-purple">
+      <div class="stat-icon">📅</div>
+      <div class="stat-value">${todayCount}</div>
+      <div class="stat-label">วันนี้</div>
+    </div>
+    <div class="stat-card gradient-mint">
+      <div class="stat-icon">☀️</div>
+      <div class="stat-value" style="font-size:1.1em;">${topOf(dayCount)}</div>
+      <div class="stat-label">วันเกิดยอดนิยม</div>
+    </div>
+    <div class="stat-card gradient-yellow">
+      <div class="stat-icon">♈</div>
+      <div class="stat-value" style="font-size:1em;">${topOf(zodiacCount)}</div>
+      <div class="stat-label">ราศียอดนิยม</div>
+    </div>
+    <div class="stat-card gradient-pink">
+      <div class="stat-icon">🐲</div>
+      <div class="stat-value" style="font-size:1em;">${topOf(cnCount)}</div>
+      <div class="stat-label">นักษัตรยอดนิยม</div>
+    </div>
+  `;
+
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('submissionsBody');
+  const emptyEl = document.getElementById('emptyState');
+  const tableWrap = document.querySelector('.table-wrap');
+  const q = (document.getElementById('searchInput').value || '').toLowerCase().trim();
+
+  const filtered = submissions
+    .filter(s => {
+      if (!q) return true;
+      return [s.firstName, s.lastName, s.phone, s.email]
+        .join(' ').toLowerCase().includes(q);
+    })
+    .slice().reverse();
+
+  if (submissions.length === 0) {
+    tableWrap.classList.add('hidden');
+    emptyEl.classList.remove('hidden');
+    return;
+  }
+  tableWrap.classList.remove('hidden');
+  emptyEl.classList.add('hidden');
+
+  const fmtDate = (iso) => {
+    const d = new Date(iso);
+    return d.toLocaleString('th-TH', { dateStyle: 'short', timeStyle: 'short' });
+  };
+  const fmtBirth = (iso) => {
+    const d = new Date(iso);
+    const m = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+    return `${d.getDate()} ${m[d.getMonth()]} ${d.getFullYear() + 543}`;
+  };
+
+  tbody.innerHTML = filtered.map((s, i) => `
+    <tr>
+      <td>${filtered.length - i}</td>
+      <td>${fmtDate(s.timestamp)}</td>
+      <td><strong>${escapeHtml(s.firstName)} ${escapeHtml(s.lastName)}</strong></td>
+      <td>${fmtBirth(s.birthDate)}</td>
+      <td>${escapeHtml(s.phone)}</td>
+      <td>${escapeHtml(s.email)}</td>
+      <td><span class="tag">${s.dayOfWeek}</span></td>
+      <td><span class="tag">${s.zodiac}</span></td>
+      <td><span class="tag">${s.cnZodiacEmoji} ${s.cnZodiac}</span></td>
+      <td><button class="row-action" onclick="deleteEntry('${s.id}')">🗑️ ลบ</button></td>
+    </tr>
+  `).join('');
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+document.getElementById('searchInput').addEventListener('input', renderTable);
+
+function deleteEntry(id) {
+  if (!confirm('ต้องการลบข้อมูลรายการนี้?')) return;
+  submissions = submissions.filter(s => s.id !== id);
+  saveSubmissions();
+  renderAdmin();
+}
+
+function clearAll() {
+  if (submissions.length === 0) { alert('ไม่มีข้อมูลให้ลบ'); return; }
+  if (!confirm(`ต้องการลบข้อมูลทั้งหมด ${submissions.length} รายการ? (ไม่สามารถกู้คืนได้)`)) return;
+  if (!confirm('ยืนยันอีกครั้ง: ลบข้อมูลทั้งหมดถาวร?')) return;
+  submissions = [];
+  saveSubmissions();
+  renderAdmin();
+}
+
+function exportCSV() {
+  if (submissions.length === 0) { alert('ไม่มีข้อมูลให้ export'); return; }
+  const headers = ['ID','วันที่บันทึก','ชื่อ','นามสกุล','วันเกิด','เบอร์โทร','อีเมล','วันเกิด(สัปดาห์)','ราศี','นักษัตรจีน','เลขชีวิต','ยินยอม PDPA'];
+  const rows = submissions.map(s => [
+    s.id, s.timestamp, s.firstName, s.lastName, s.birthDate,
+    s.phone, s.email, s.dayOfWeek, s.zodiac, s.cnZodiac,
+    s.lifeNumber, s.consent ? 'ใช่' : 'ไม่'
+  ]);
+  const csv = [headers, ...rows].map(r =>
+    r.map(c => `"${String(c).replace(/"/g, '""')}"`).join(',')
+  ).join('\n');
+  const bom = '﻿'; // BOM for Excel Thai support
+  const blob = new Blob([bom + csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lucky-stone-data-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
