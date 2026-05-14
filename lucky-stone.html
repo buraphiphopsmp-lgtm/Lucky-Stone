@@ -322,10 +322,9 @@
     border-radius: 22px;
     flex-shrink: 0;
     background: linear-gradient(135deg, #fff0f9 0%, #e6f9ff 100%);
-    object-fit: cover;
+    padding: 8px;
     box-shadow: 0 6px 15px var(--shadow);
     transition: transform 0.3s;
-    border: 2px solid white;
   }
   .stone-card:hover .stone-image {
     transform: rotate(10deg) scale(1.1);
@@ -551,14 +550,11 @@
     margin-bottom: 8px;
   }
   .soul-image {
-    width: 180px;
-    height: 180px;
+    width: 160px;
+    height: 160px;
     margin: 8px auto 12px;
     display: block;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 6px solid white;
-    box-shadow: 0 15px 35px var(--shadow);
+    filter: drop-shadow(0 10px 20px var(--shadow));
     animation: bounce 2s ease-in-out infinite;
   }
   .soul-name {
@@ -674,9 +670,8 @@
     height: 90px;
     border-radius: 18px;
     flex-shrink: 0;
-    object-fit: cover;
+    padding: 6px;
     background: white;
-    border: 2px solid white;
     box-shadow: 0 4px 10px var(--shadow);
   }
   .enhance-content { flex: 1; }
@@ -787,8 +782,9 @@
     .enhance-image { width: 120px; height: 120px; }
   }
 
-  /* Tabs */
+  /* Tabs — hidden by default. Admin still accessible via URL hash #admin */
   .tab-bar {
+    display: none;
     position: fixed;
     top: 16px;
     right: 16px;
@@ -798,10 +794,10 @@
     padding: 5px;
     box-shadow: 0 8px 20px var(--shadow);
     z-index: 100;
-    display: flex;
     gap: 3px;
     border: 2px solid white;
   }
+  .tab-bar.visible { display: flex; }
   .tab-bar button {
     background: transparent;
     color: var(--purple-dark);
@@ -1590,6 +1586,12 @@ const numerologyStones = {
 
 /* ---------- Storage layer ---------- */
 const STORAGE_KEY = 'lucky_stone_submissions';
+
+// === Google Sheets endpoint ===
+// Paste your Google Apps Script Web App URL below (see apps-script.gs for setup).
+// Leave empty string '' to disable Sheets sync — data still saves to localStorage.
+const SHEETS_ENDPOINT = '';
+
 let submissions = [];
 try {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -1601,6 +1603,24 @@ function saveSubmissions() {
   catch (e) { console.warn('localStorage write failed:', e); }
 }
 
+// Send a submission to the Google Sheets endpoint.
+// Uses text/plain to avoid CORS preflight; uses no-cors so request still
+// reaches Apps Script (we don't read the response). Apps Script can parse
+// the JSON body via e.postData.contents.
+async function sendToSheets(payload) {
+  if (!SHEETS_ENDPOINT) return;
+  try {
+    await fetch(SHEETS_ENDPOINT, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+  } catch (e) {
+    console.warn('Sheets submit failed:', e);
+  }
+}
+
 /* ---------- Tab switching ---------- */
 const tabFormBtn = document.getElementById('tabForm');
 const tabAdminBtn = document.getElementById('tabAdmin');
@@ -1608,11 +1628,14 @@ const formView = document.getElementById('formView');
 const adminView = document.getElementById('adminView');
 
 function showView(view) {
+  const tabBar = document.querySelector('.tab-bar');
   if (view === 'admin') {
     formView.classList.add('hidden');
     adminView.classList.remove('hidden');
     tabFormBtn.classList.remove('active');
     tabAdminBtn.classList.add('active');
+    // Reveal tab bar only when in admin mode so user can go back
+    if (tabBar) tabBar.classList.add('visible');
     location.hash = 'admin';
     renderAdmin();
   } else {
@@ -1620,6 +1643,8 @@ function showView(view) {
     adminView.classList.add('hidden');
     tabFormBtn.classList.add('active');
     tabAdminBtn.classList.remove('active');
+    // Hide tab bar for regular users
+    if (tabBar) tabBar.classList.remove('visible');
     location.hash = '';
   }
 }
@@ -1725,7 +1750,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
 
   const stoneCard = (img, fb, emoji, name, desc) => `
     <div class="stone-card">
-      <img class="stone-image" src="${img}" alt="${name}" loading="lazy" crossorigin="anonymous" onerror="this.onerror=null;this.src='${fb}';this.removeAttribute('crossorigin');">
+      <img class="stone-image" src="${fb}" alt="${name}" loading="lazy">
       <div class="stone-content">
         <div class="stone-name"><span class="stone-emoji">${emoji}</span>${name}</div>
         <div class="stone-desc">${desc}</div>
@@ -1746,7 +1771,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     .filter(Boolean)
     .map(s => `
       <div class="enhance-card">
-        <img class="enhance-image" src="${s.img}" alt="${s.name}" loading="lazy" crossorigin="anonymous" onerror="this.onerror=null;this.src='${s.fb}';this.removeAttribute('crossorigin');">
+        <img class="enhance-image" src="${s.fb}" alt="${s.name}" loading="lazy">
         <div class="enhance-content">
           <span class="enhance-goal">${s.goal}</span>
           <div class="enhance-name">${s.name}</div>
@@ -1772,7 +1797,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     <div class="section-title">หินประจำตัวของคุณ</div>
     <div class="soul-stone">
       <div class="soul-label">✦ MY SOUL STONE ✦</div>
-      <img class="soul-image" src="${soulStone.img}" alt="${soulStone.fullName}" crossorigin="anonymous" onerror="this.onerror=null;this.src='${soulStone.fb}';this.removeAttribute('crossorigin');">
+      <img class="soul-image" src="${soulStone.fb}" alt="${soulStone.fullName}">
       <div class="soul-name">${soulStone.fullName}</div>
       <div class="soul-desc">${soulStone.desc}</div>
       <div class="soul-tags">
@@ -1946,8 +1971,8 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     element: dayInfo.element,
     enhanceList: enhanceKeys.map(k => enhancementStones[k]).filter(Boolean).slice(0, 2)
   };
-  // Save submission to localStorage
-  submissions.push({
+  // Build submission record
+  const submission = {
     id: Date.now() + '-' + Math.random().toString(36).slice(2, 8),
     timestamp: new Date().toISOString(),
     firstName, lastName, birthDate, phone, email,
@@ -1957,8 +1982,14 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     cnZodiacEmoji: cnZodiac.emoji,
     lifeNumber,
     consent: true
-  });
+  };
+
+  // Save to localStorage (always — works as offline backup)
+  submissions.push(submission);
   saveSubmissions();
+
+  // Send to Google Sheets in the background (fire-and-forget, doesn't block UI)
+  sendToSheets(submission);
 
   document.getElementById('result').classList.add('show');
   document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
