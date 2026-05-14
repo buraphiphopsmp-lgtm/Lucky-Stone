@@ -322,9 +322,10 @@
     border-radius: 22px;
     flex-shrink: 0;
     background: linear-gradient(135deg, #fff0f9 0%, #e6f9ff 100%);
-    padding: 8px;
+    object-fit: cover;
     box-shadow: 0 6px 15px var(--shadow);
     transition: transform 0.3s;
+    border: 2px solid white;
   }
   .stone-card:hover .stone-image {
     transform: rotate(10deg) scale(1.1);
@@ -550,11 +551,14 @@
     margin-bottom: 8px;
   }
   .soul-image {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
     margin: 8px auto 12px;
     display: block;
-    filter: drop-shadow(0 10px 20px var(--shadow));
+    object-fit: cover;
+    border-radius: 50%;
+    border: 6px solid white;
+    box-shadow: 0 15px 35px var(--shadow);
     animation: bounce 2s ease-in-out infinite;
   }
   .soul-name {
@@ -670,8 +674,9 @@
     height: 90px;
     border-radius: 18px;
     flex-shrink: 0;
-    padding: 6px;
+    object-fit: cover;
     background: white;
+    border: 2px solid white;
     box-shadow: 0 4px 10px var(--shadow);
   }
   .enhance-content { flex: 1; }
@@ -1140,6 +1145,51 @@
 </div>
 
 <script>
+// Real stone images from groovyboho.net (used as primary, kawaii SVG as fallback)
+const STONE_IMG = {
+  ruby:           'https://groovyboho.net/wp-content/uploads/2021/08/Ru-Be.jpg',
+  garnet:         'https://groovyboho.net/wp-content/uploads/2021/08/Garnet.jpg',
+  coral:          'https://groovyboho.net/wp-content/uploads/2021/08/coral.jpg',
+  redzircon:      'https://groovyboho.net/wp-content/uploads/2021/08/Red-Zircon.jpg',
+  redtourmaline:  'https://groovyboho.net/wp-content/uploads/2021/08/Red-Tourmaline.jpg',
+  carnelian:      'https://groovyboho.net/wp-content/uploads/2023/01/4d8cea9224e43400844860e8955acf86.jpg',
+  yellowsapphire: 'https://groovyboho.net/wp-content/uploads/2021/08/Yellow-Sapphire.jpg',
+  citrine:        'https://groovyboho.net/wp-content/uploads/2021/08/Citrine.jpg',
+  tigerseye:      'https://groovyboho.net/wp-content/uploads/2021/08/Tigers-Eye.jpg',
+  tigeriron:      'https://groovyboho.net/wp-content/uploads/2021/08/Tiger-Iron.jpg',
+  emerald:        'https://groovyboho.net/wp-content/uploads/2021/08/Emerald.jpg',
+  peridot:        'https://groovyboho.net/wp-content/uploads/2021/08/Peridot.jpg',
+  malachite:      'https://groovyboho.net/wp-content/uploads/2021/08/Malachite.jpg',
+  aventurine:     'https://groovyboho.net/wp-content/uploads/2021/08/Green-Aventurine.jpg',
+  jade:           'https://groovyboho.net/wp-content/uploads/2021/08/green-jade.jpg',
+  whitejade:      'https://groovyboho.net/wp-content/uploads/2021/08/white-jade.jpg',
+  yellowjade:     'https://groovyboho.net/wp-content/uploads/2021/08/yellow-jade.jpg',
+  chrysoprase:    'https://groovyboho.net/wp-content/uploads/2021/08/Chrysocolla1.jpg',
+  aquamarine:     'https://groovyboho.net/wp-content/uploads/2021/08/Aquamarine.jpg',
+  turquoise:      'https://groovyboho.net/wp-content/uploads/2021/08/Turquoise.jpg',
+  apatite:        'https://groovyboho.net/wp-content/uploads/2021/08/Apatite.jpg',
+  rosequartz:     'https://groovyboho.net/wp-content/uploads/2021/08/Rose-Quartz.jpg',
+  rhodonite:      'https://groovyboho.net/wp-content/uploads/2021/08/Rhodonite.jpg',
+  chalcedony:     'https://groovyboho.net/wp-content/uploads/2021/08/Chalcedony.jpg',
+  bluesapphire:   'https://groovyboho.net/wp-content/uploads/2021/08/Blue-Sapphire.jpg',
+  lapislazuli:    'https://groovyboho.net/wp-content/uploads/2021/08/Lapis-Lazuli.jpg',
+  amethyst:       'https://groovyboho.net/wp-content/uploads/2021/08/Amethyst-stone.jpg',
+  onyx:           'https://groovyboho.net/wp-content/uploads/2021/08/Onyx-1.jpg',
+  onyxring:       'https://groovyboho.net/wp-content/uploads/2021/08/Onyx-ring.jpg',
+  tektite:        'https://groovyboho.net/wp-content/uploads/2021/08/Tektite.jpg',
+  moonstone:      'https://groovyboho.net/wp-content/uploads/2021/08/Moonstone.jpg',
+  opal:           'https://groovyboho.net/wp-content/uploads/2021/08/Opal.jpg',
+  fluorite:       'https://groovyboho.net/wp-content/uploads/2021/08/Fluorite.jpg',
+  zoisiteruby:    'https://groovyboho.net/wp-content/uploads/2021/08/Zoisite-with-Ruby.jpg',
+  watermelon:     'https://groovyboho.net/wp-content/uploads/2021/08/Watermelon-Tourmaline-Multi-Color.jpg',
+  labradorite:    'https://groovyboho.net/wp-content/uploads/2021/08/Labradorite.jpg',
+  kyanite:        'https://groovyboho.net/wp-content/uploads/2021/08/Kyanite.jpg',
+  goldrutile:     'https://groovyboho.net/wp-content/uploads/2021/08/Gold-Rutilated-Quartz.jpg',
+  silverrutile:   'https://groovyboho.net/wp-content/uploads/2021/08/Silver-Rutilated-Quartz.jpg',
+  pinkrutile:     'https://groovyboho.net/wp-content/uploads/2021/08/Pink-Rutilated-Quartz.jpg',
+  blackrutile:    'https://groovyboho.net/wp-content/uploads/2021/08/Black-Rutilated-Quartz-b.jpg'
+};
+
 // Cute kawaii stone SVG generator
 function kawaiiStone(c1, c2, shape = 'diamond') {
   const shapes = {
@@ -1191,9 +1241,9 @@ const dayStones = {
     color: 'สีแดง / ส้ม',
     element: 'ธาตุไฟ 🔥',
     stones: [
-      { name: 'แหวนทับทิม', emoji: '❤️', desc: 'หินแห่งความรัก พลังอำนาจ เสริมความเป็นตัวเอง ใส่แล้วปังมาก!', img: kawaiiStone('#ff8fa3', '#c0142c', 'heart') },
-      { name: 'กำไลโกเมน', emoji: '🍓', desc: 'เสริมพลังงาน ความมั่นใจ ดึงดูดความสำเร็จ ใส่แล้วฟีลเควียน', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
-      { name: 'จี้ซันสโตน', emoji: '🌞', desc: 'หินดวงอาทิตย์ มอบความอบอุ่น ความสุข โชคลาภแบบ sunny vibes', img: kawaiiStone('#ffc070', '#e88c1a', 'star') }
+      { name: 'แหวนทับทิม', emoji: '❤️', desc: 'หินแห่งความรัก พลังอำนาจ เสริมความเป็นตัวเอง ใส่แล้วปังมาก!', img: STONE_IMG.ruby, fb: kawaiiStone('#ff8fa3', '#c0142c', 'heart') },
+      { name: 'กำไลโกเมน', emoji: '🍓', desc: 'เสริมพลังงาน ความมั่นใจ ดึงดูดความสำเร็จ ใส่แล้วฟีลเควียน', img: STONE_IMG.garnet, fb: kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
+      { name: 'จี้คาร์เนเลียน', emoji: '🌞', desc: 'หินส้มแห่งดวงอาทิตย์ มอบความอบอุ่น ความสุข โชคลาภแบบ sunny vibes', img: STONE_IMG.carnelian, fb: kawaiiStone('#ffc070', '#e88c1a', 'star') }
     ],
     trait: 'เกิดวันอาทิตย์ = บุคลิกเด่น เป็นผู้นำ มีออร่า เด่นในทุกที่ที่ไป'
   },
@@ -1202,9 +1252,9 @@ const dayStones = {
     color: 'สีเหลืองนวล / ขาวมุก',
     element: 'ธาตุน้ำ 💧',
     stones: [
-      { name: 'สร้อยมุก', emoji: '🤍', desc: 'หินบริสุทธิ์ เสริมเสน่ห์ ความสง่างาม ดู classy แบบ soft girl', img: kawaiiStone('#fdf6e3', '#e6d5b8', 'round') },
-      { name: 'แหวนมูนสโตน', emoji: '🌙', desc: 'หินดวงจันทร์ เสริมสัญชาตญาณ เมตตา รักแท้ ฟีลเควีนของคนรัก', img: kawaiiStone('#e8e8ff', '#a8a8d8', 'teardrop') },
-      { name: 'จี้โอปอล', emoji: '🦄', desc: 'หินจินตนาการ ความคิดสร้างสรรค์ ใส่แล้วชีวิตเป็น dreamcore', img: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower') }
+      { name: 'หยกขาว', emoji: '🤍', desc: 'หินบริสุทธิ์ เสริมเสน่ห์ ความสง่างาม ดู classy แบบ soft girl', img: STONE_IMG.whitejade, fb: kawaiiStone('#fdf6e3', '#e6d5b8', 'round') },
+      { name: 'แหวนมูนสโตน', emoji: '🌙', desc: 'หินดวงจันทร์ เสริมสัญชาตญาณ เมตตา รักแท้ ฟีลเควีนของคนรัก', img: STONE_IMG.moonstone, fb: kawaiiStone('#e8e8ff', '#a8a8d8', 'teardrop') },
+      { name: 'จี้โอปอล', emoji: '🦄', desc: 'หินจินตนาการ ความคิดสร้างสรรค์ ใส่แล้วชีวิตเป็น dreamcore', img: STONE_IMG.opal, fb: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower') }
     ],
     trait: 'เกิดวันจันทร์ = จิตใจอ่อนโยน อ่อนไหว ฟีล soft girl/boy มีเมตตา'
   },
@@ -1213,9 +1263,9 @@ const dayStones = {
     color: 'สีชมพู / แดงเข้ม',
     element: 'ธาตุไฟ 🔥',
     stones: [
-      { name: 'กำไลปะการังแดง', emoji: '🪸', desc: 'หินกล้าหาญ ป้องกันภัย เสริมสุขภาพ ใส่แล้วเบส energy ฟิต', img: kawaiiStone('#ff9c9c', '#d63030', 'flower') },
-      { name: 'สร้อยโรสควอตซ์', emoji: '💗', desc: 'หินแห่งความรัก เพิ่มเสน่ห์ ดึงดูดเนื้อคู่ ใส่ปุ๊บ crush มาเอง', img: kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
-      { name: 'แหวนทัวร์มาลีนชมพู', emoji: '💖', desc: 'หินความรัก ความกล้าหาญ ใส่แล้วเปย์ตัวเองก่อนใคร', img: kawaiiStone('#ffb6d9', '#e872a8', 'diamond') }
+      { name: 'กำไลปะการังแดง', emoji: '🪸', desc: 'หินกล้าหาญ ป้องกันภัย เสริมสุขภาพ ใส่แล้วเบส energy ฟิต', img: STONE_IMG.coral, fb: kawaiiStone('#ff9c9c', '#d63030', 'flower') },
+      { name: 'สร้อยโรสควอตซ์', emoji: '💗', desc: 'หินแห่งความรัก เพิ่มเสน่ห์ ดึงดูดเนื้อคู่ ใส่ปุ๊บ crush มาเอง', img: STONE_IMG.rosequartz, fb: kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
+      { name: 'แหวนทัวร์มาลีนแดง', emoji: '💖', desc: 'หินความรัก ความกล้าหาญ ใส่แล้วเปย์ตัวเองก่อนใคร', img: STONE_IMG.redtourmaline, fb: kawaiiStone('#ffb6d9', '#e872a8', 'diamond') }
     ],
     trait: 'เกิดวันอังคาร = พลังเยอะ กล้าหาญ ตรงไปตรงมา ฟีลgirlboss/itboy'
   },
@@ -1224,9 +1274,9 @@ const dayStones = {
     color: 'สีเขียว',
     element: 'ธาตุดิน 🌱',
     stones: [
-      { name: 'แหวนมรกต', emoji: '💚', desc: 'หินปัญญา ความรอบรู้ สำเร็จด้านการเงิน เป็น CEO ของชีวิต', img: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
-      { name: 'กำไลหยก', emoji: '🍵', desc: 'นำพาโชคลาภ สุขภาพดี ความสมดุล สาย matcha latte ต้องมี', img: kawaiiStone('#a8d8b8', '#4ca878', 'round') },
-      { name: 'จี้เพอริดอท', emoji: '🍀', desc: 'หินรุ่งเรือง สดใส ขจัดพลังลบ good vibes only', img: kawaiiStone('#c8e898', '#88c050', 'teardrop') }
+      { name: 'แหวนมรกต', emoji: '💚', desc: 'หินปัญญา ความรอบรู้ สำเร็จด้านการเงิน เป็น CEO ของชีวิต', img: STONE_IMG.emerald, fb: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
+      { name: 'กำไลหยก', emoji: '🍵', desc: 'นำพาโชคลาภ สุขภาพดี ความสมดุล สาย matcha latte ต้องมี', img: STONE_IMG.jade, fb: kawaiiStone('#a8d8b8', '#4ca878', 'round') },
+      { name: 'จี้เพอริดอท', emoji: '🍀', desc: 'หินรุ่งเรือง สดใส ขจัดพลังลบ good vibes only', img: STONE_IMG.peridot, fb: kawaiiStone('#c8e898', '#88c050', 'teardrop') }
     ],
     trait: 'เกิดวันพุธ = ไหวพริบดี ฉลาด พูดเก่ง เจรจาเทพ สาย smart cookie'
   },
@@ -1235,9 +1285,9 @@ const dayStones = {
     color: 'สีเหลืองทอง / ส้ม',
     element: 'ธาตุลม 🍃',
     stones: [
-      { name: 'แหวนบุษราคัม', emoji: '💛', desc: 'หินความมั่งคั่ง ปัญญา สำเร็จในวิชาชีพ ฟีลกูรูประจำกลุ่ม', img: kawaiiStone('#ffe888', '#e8c020', 'diamond') },
-      { name: 'กำไลซิทริน', emoji: '🌟', desc: '"หินพ่อค้า" ดึงดูดเงินทอง โชคลาภ ทำธุรกิจรุ่ง', img: kawaiiStone('#ffd870', '#f0a830', 'star') },
-      { name: 'จี้โทแพซเหลือง', emoji: '✨', desc: 'หินสติปัญญา ความรู้ ก้าวหน้าในการเรียน A+ทุกวิชา', img: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop') }
+      { name: 'แหวนบุษราคัม', emoji: '💛', desc: 'หินความมั่งคั่ง ปัญญา สำเร็จในวิชาชีพ ฟีลกูรูประจำกลุ่ม', img: STONE_IMG.yellowsapphire, fb: kawaiiStone('#ffe888', '#e8c020', 'diamond') },
+      { name: 'กำไลซิทริน', emoji: '🌟', desc: '"หินพ่อค้า" ดึงดูดเงินทอง โชคลาภ ทำธุรกิจรุ่ง', img: STONE_IMG.citrine, fb: kawaiiStone('#ffd870', '#f0a830', 'star') },
+      { name: 'จี้หยกเหลือง', emoji: '✨', desc: 'หินเหลืองทอง เสริมสติปัญญา ความรู้ ก้าวหน้าในการเรียน A+ ทุกวิชา', img: STONE_IMG.yellowjade, fb: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop') }
     ],
     trait: 'เกิดวันพฤหัส = ใจดี เป็นครู มีความรู้ ศีลธรรมสูง ฟีล mentor'
   },
@@ -1246,9 +1296,9 @@ const dayStones = {
     color: 'สีฟ้า / น้ำเงิน',
     element: 'ธาตุน้ำ 💧',
     stones: [
-      { name: 'แหวนเพชร', emoji: '💎', desc: 'หินความสูงส่ง รักนิรันดร์ ใส่แล้วเป็น main character', img: kawaiiStone('#f0f4ff', '#c8d0e8', 'diamond') },
-      { name: 'สร้อยอะความารีน', emoji: '🌊', desc: 'หินความสงบ การสื่อสาร รักบริสุทธิ์ ocean vibes', img: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop') },
-      { name: 'ต่างหูบลูโทแพซ', emoji: '🔷', desc: 'เสริมเสน่ห์ ความสำเร็จในรัก เข้าสังคมเก่ง', img: kawaiiStone('#88c0e8', '#3a8cc0', 'heart') }
+      { name: 'จี้ไคยาไนท์', emoji: '💎', desc: 'หินฟ้าใสแห่งความสูงส่ง ความสงบ ใส่แล้วเป็น main character', img: STONE_IMG.kyanite, fb: kawaiiStone('#f0f4ff', '#c8d0e8', 'diamond') },
+      { name: 'สร้อยอะความารีน', emoji: '🌊', desc: 'หินความสงบ การสื่อสาร รักบริสุทธิ์ ocean vibes', img: STONE_IMG.aquamarine, fb: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop') },
+      { name: 'ต่างหูอพาไทท์', emoji: '🔷', desc: 'หินฟ้า เสริมเสน่ห์ ความสำเร็จในรัก เข้าสังคมเก่ง', img: STONE_IMG.apatite, fb: kawaiiStone('#88c0e8', '#3a8cc0', 'heart') }
     ],
     trait: 'เกิดวันศุกร์ = เสน่ห์เยอะ รักความสวยงาม โรแมนติก ฟีล aesthetic'
   },
@@ -1257,27 +1307,27 @@ const dayStones = {
     color: 'สีม่วง / ดำ',
     element: 'ธาตุไฟ 🔥',
     stones: [
-      { name: 'แหวนไพลิน', emoji: '💙', desc: 'เสริมบารมี อำนาจ ปัญญา ความมั่นคง royalty vibes', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond') },
-      { name: 'กำไลอเมทิสต์', emoji: '💜', desc: 'หินจิตวิญญาณ ขจัดพลังลบ เสริมสมาธิ สาย spiritual healing', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'round') },
-      { name: 'จี้ออบซิเดียน', emoji: '🖤', desc: 'หินดำคุ้มครอง ป้องกันภัย ความมั่นคงทางใจ dark academia', img: kawaiiStone('#5a5570', '#1a1a1a', 'teardrop') }
+      { name: 'แหวนไพลิน', emoji: '💙', desc: 'เสริมบารมี อำนาจ ปัญญา ความมั่นคง royalty vibes', img: STONE_IMG.bluesapphire, fb: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond') },
+      { name: 'กำไลอเมทิสต์', emoji: '💜', desc: 'หินจิตวิญญาณ ขจัดพลังลบ เสริมสมาธิ สาย spiritual healing', img: STONE_IMG.amethyst, fb: kawaiiStone('#c8a8e8', '#8a3ac0', 'round') },
+      { name: 'จี้นิล (Onyx)', emoji: '🖤', desc: 'หินดำคุ้มครอง ป้องกันภัย ความมั่นคงทางใจ dark academia', img: STONE_IMG.onyx, fb: kawaiiStone('#5a5570', '#1a1a1a', 'teardrop') }
     ],
     trait: 'เกิดวันเสาร์ = อดทน หนักแน่น มุ่งมั่น ปัญญาลึก ฟีล mysterious'
   }
 };
 
 const zodiacSigns = [
-  { name: 'มังกร (Capricorn)', emoji: '♑', stone: 'การ์เน็ต', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'round'), start: [12, 22], end: [1, 19] },
-  { name: 'กุมภ์ (Aquarius)', emoji: '♒', stone: 'อเมทิสต์', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'diamond'), start: [1, 20], end: [2, 18] },
-  { name: 'มีน (Pisces)', emoji: '♓', stone: 'อะความารีน', img: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop'), start: [2, 19], end: [3, 20] },
-  { name: 'เมษ (Aries)', emoji: '♈', stone: 'เพชร', img: kawaiiStone('#f0f4ff', '#c8d0e8', 'star'), start: [3, 21], end: [4, 19] },
-  { name: 'พฤษภ (Taurus)', emoji: '♉', stone: 'มรกต', img: kawaiiStone('#7eddae', '#1a8a4a', 'flower'), start: [4, 20], end: [5, 20] },
-  { name: 'เมถุน (Gemini)', emoji: '♊', stone: 'มุก', img: kawaiiStone('#fdf6e3', '#e6d5b8', 'round'), start: [5, 21], end: [6, 20] },
-  { name: 'กรกฎ (Cancer)', emoji: '♋', stone: 'ทับทิม', img: kawaiiStone('#ff8fa3', '#c0142c', 'heart'), start: [6, 21], end: [7, 22] },
-  { name: 'สิงห์ (Leo)', emoji: '♌', stone: 'เพอริดอท', img: kawaiiStone('#c8e898', '#88c050', 'star'), start: [7, 23], end: [8, 22] },
-  { name: 'กันย์ (Virgo)', emoji: '♍', stone: 'แซฟไฟร์', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond'), start: [8, 23], end: [9, 22] },
-  { name: 'ตุลย์ (Libra)', emoji: '♎', stone: 'โอปอล', img: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower'), start: [9, 23], end: [10, 22] },
-  { name: 'พิจิก (Scorpio)', emoji: '♏', stone: 'โทแพซ', img: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop'), start: [10, 23], end: [11, 21] },
-  { name: 'ธนู (Sagittarius)', emoji: '♐', stone: 'เทอร์ควอยซ์', img: kawaiiStone('#a0e0e8', '#40b0c0', 'round'), start: [11, 22], end: [12, 21] }
+  { name: 'มังกร (Capricorn)', emoji: '♑', stone: 'การ์เน็ต', img: STONE_IMG.garnet, fb: kawaiiStone('#ff7d7d', '#7d1a1a', 'round'), start: [12, 22], end: [1, 19] },
+  { name: 'กุมภ์ (Aquarius)', emoji: '♒', stone: 'อเมทิสต์', img: STONE_IMG.amethyst, fb: kawaiiStone('#c8a8e8', '#8a3ac0', 'diamond'), start: [1, 20], end: [2, 18] },
+  { name: 'มีน (Pisces)', emoji: '♓', stone: 'อะความารีน', img: STONE_IMG.aquamarine, fb: kawaiiStone('#b8e8f0', '#7cc8d8', 'teardrop'), start: [2, 19], end: [3, 20] },
+  { name: 'เมษ (Aries)', emoji: '♈', stone: 'ไคยาไนท์', img: STONE_IMG.kyanite, fb: kawaiiStone('#f0f4ff', '#c8d0e8', 'star'), start: [3, 21], end: [4, 19] },
+  { name: 'พฤษภ (Taurus)', emoji: '♉', stone: 'มรกต', img: STONE_IMG.emerald, fb: kawaiiStone('#7eddae', '#1a8a4a', 'flower'), start: [4, 20], end: [5, 20] },
+  { name: 'เมถุน (Gemini)', emoji: '♊', stone: 'หยกขาว', img: STONE_IMG.whitejade, fb: kawaiiStone('#fdf6e3', '#e6d5b8', 'round'), start: [5, 21], end: [6, 20] },
+  { name: 'กรกฎ (Cancer)', emoji: '♋', stone: 'ทับทิม', img: STONE_IMG.ruby, fb: kawaiiStone('#ff8fa3', '#c0142c', 'heart'), start: [6, 21], end: [7, 22] },
+  { name: 'สิงห์ (Leo)', emoji: '♌', stone: 'เพอริดอท', img: STONE_IMG.peridot, fb: kawaiiStone('#c8e898', '#88c050', 'star'), start: [7, 23], end: [8, 22] },
+  { name: 'กันย์ (Virgo)', emoji: '♍', stone: 'ไพลิน', img: STONE_IMG.bluesapphire, fb: kawaiiStone('#7a9ce0', '#1a3a8a', 'diamond'), start: [8, 23], end: [9, 22] },
+  { name: 'ตุลย์ (Libra)', emoji: '♎', stone: 'โอปอล', img: STONE_IMG.opal, fb: kawaiiStone('#c8e0ff', '#a8c8d8', 'flower'), start: [9, 23], end: [10, 22] },
+  { name: 'พิจิก (Scorpio)', emoji: '♏', stone: 'ซิทริน / โทแพซ', img: STONE_IMG.citrine, fb: kawaiiStone('#ffeaa8', '#f5d860', 'teardrop'), start: [10, 23], end: [11, 21] },
+  { name: 'ธนู (Sagittarius)', emoji: '♐', stone: 'เทอร์ควอยซ์', img: STONE_IMG.turquoise, fb: kawaiiStone('#a0e0e8', '#40b0c0', 'round'), start: [11, 22], end: [12, 21] }
 ];
 
 function getZodiac(month, day) {
@@ -1355,24 +1405,24 @@ const personalityByDay = {
 
 // Enhancement stones library (by area to improve)
 const enhancementStones = {
-  'confidence': { name: 'ซิทริน (Citrine)', goal: '💪 เสริมความมั่นใจ', desc: 'หินสีเหลืองทองช่วยเสริมความมั่นใจ ดึงพลังบวก และทำให้กล้าแสดงออก', img: () => kawaiiStone('#ffd870', '#f0a830', 'star') },
-  'leadership-soft': { name: 'อเวนทูรีน (Aventurine)', goal: '🌿 ผู้นำแบบนุ่มนวล', desc: 'หินสีเขียวช่วยให้คุณเป็นผู้นำที่นุ่มนวล มีเมตตา ไม่กดดันคนอื่น', img: () => kawaiiStone('#a8e0a0', '#4ca878', 'flower') },
-  'protection': { name: 'แบล็กทัวร์มาลีน (Black Tourmaline)', goal: '🛡️ ปกป้องพลังลบ', desc: 'หินดำดูดพลังลบและความคิดของคนรอบข้าง เหมาะกับคนอ่อนไหว', img: () => kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
-  'decision': { name: 'ไทเกอร์อาย (Tiger Eye)', goal: '🎯 ตัดสินใจได้เด็ดขาด', desc: 'หินสีน้ำตาลทองช่วยให้คุณเห็นภาพชัด ตัดสินใจได้ฉับไว ไม่ลังเล', img: () => kawaiiStone('#d8a868', '#8a5028', 'round') },
-  'calm': { name: 'อเมทิสต์ (Amethyst)', goal: '🧘 สงบจิตใจ', desc: 'หินสีม่วงช่วยให้ใจเย็น ลดความหงุดหงิด เสริมสมาธิ ทำให้นอนหลับดี', img: () => kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
-  'patience': { name: 'ฮาวไลต์ (Howlite)', goal: '⏳ เพิ่มความอดทน', desc: 'หินสีขาวลายเทาช่วยลดความใจร้อน เพิ่มความอดทนและความเมตตา', img: () => kawaiiStone('#f5f0e8', '#a8a098', 'round') },
-  'love': { name: 'โรสควอตซ์ (Rose Quartz)', goal: '💗 ความรักและสัมพันธ์', desc: 'ราชินีแห่งหินความรัก เสริมเสน่ห์ ทำให้ใจอ่อนโยน ดึงดูดความรักดีๆ', img: () => kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
-  'focus': { name: 'ฟลูออไรต์ (Fluorite)', goal: '🎯 เพิ่มสมาธิและโฟกัส', desc: 'หินสีเขียว-ม่วงช่วยเพิ่มสมาธิ จัดระเบียบความคิด เหมาะกับคนที่คิดเยอะ', img: () => kawaiiStone('#a8b8e8', '#5a78c0', 'diamond') },
-  'wealth': { name: 'ไพไรต์ (Pyrite)', goal: '💰 ดึงดูดเงินทอง', desc: '"ทองคำของคนโง่" จริงๆ แล้วเป็นหินดึงดูดความมั่งคั่งและโอกาสทางธุรกิจ', img: () => kawaiiStone('#e8c878', '#a88020', 'diamond') },
-  'wealth-flow': { name: 'หยกพม่า (Jade)', goal: '💎 กระแสเงินสด', desc: 'นำพาความเจริญรุ่งเรือง โชคลาภ และทรัพย์สินมาตลอดชีวิต', img: () => kawaiiStone('#a8d8b8', '#4ca878', 'flower') },
-  'wealth-save': { name: 'การ์เน็ต (Garnet)', goal: '🏦 รักษาทรัพย์', desc: 'ช่วยให้คุณเก็บเงินได้ดีขึ้น ระมัดระวังการใช้จ่ายฟุ่มเฟือย', img: () => kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
-  'commitment': { name: 'โอนิกซ์แดง (Red Onyx)', goal: '🔗 ความมั่นคงและคำมั่น', desc: 'ช่วยให้คุณยึดมั่นในเป้าหมาย ไม่ล้มเลิกง่าย รักษาคำพูดและความสัมพันธ์', img: () => kawaiiStone('#c84840', '#5a1818', 'diamond') },
-  'self-love': { name: 'โรโดไนต์ (Rhodonite)', goal: '🌸 รักตัวเอง', desc: 'หินสีชมพูช่วยเตือนให้คุณดูแลตัวเอง ไม่ลืมความสุขของตัวเอง', img: () => kawaiiStone('#f0a8c0', '#c05080', 'heart') },
-  'happiness': { name: 'ซันสโตน (Sunstone)', goal: '☀️ ความสุข', desc: 'หินดวงอาทิตย์มอบความอบอุ่นและความสุขในชีวิตประจำวัน', img: () => kawaiiStone('#ffc070', '#e88c1a', 'star') },
-  'discipline': { name: 'เฮมาไทต์ (Hematite)', goal: '🎖️ วินัยและความเป็นระเบียบ', desc: 'หินสีเทาเงาช่วยให้คุณมีระเบียบ มีวินัยมากขึ้น มุ่งมั่นในเป้าหมาย', img: () => kawaiiStone('#a8a8b8', '#4a4a5a', 'round') },
-  'joy': { name: 'ซิทริน (Citrine)', goal: '😊 ความเบิกบาน', desc: 'ดึงพลังงานบวก ทำให้คุณยิ้มได้ง่ายขึ้น มองโลกในแง่ดี', img: () => kawaiiStone('#ffd870', '#f0a830', 'star') },
-  'opening-up': { name: 'บลูเลซอาเกต (Blue Lace Agate)', goal: '🗣️ เปิดใจสื่อสาร', desc: 'หินสีฟ้าอ่อนช่วยให้คุณกล้าพูด เปิดใจ บอกความรู้สึกได้ง่ายขึ้น', img: () => kawaiiStone('#c8e0f0', '#6890b0', 'teardrop') },
-  'release-stress': { name: 'เลปิโดไลต์ (Lepidolite)', goal: '🌙 ปลดปล่อยความเครียด', desc: 'หินสีม่วงอ่อนช่วยคลายเครียด ผ่อนคลายความวิตกกังวล นอนหลับดี', img: () => kawaiiStone('#e0c8f0', '#9070b8', 'flower') }
+  'confidence': { name: 'ซิทริน (Citrine)', goal: '💪 เสริมความมั่นใจ', desc: 'หินสีเหลืองทองช่วยเสริมความมั่นใจ ดึงพลังบวก และทำให้กล้าแสดงออก', img: STONE_IMG.citrine, fb: kawaiiStone('#ffd870', '#f0a830', 'star') },
+  'leadership-soft': { name: 'กรีนอะเวนเจอรีน (Aventurine)', goal: '🌿 ผู้นำแบบนุ่มนวล', desc: 'หินสีเขียวช่วยให้คุณเป็นผู้นำที่นุ่มนวล มีเมตตา ไม่กดดันคนอื่น', img: STONE_IMG.aventurine, fb: kawaiiStone('#a8e0a0', '#4ca878', 'flower') },
+  'protection': { name: 'นิล (Onyx)', goal: '🛡️ ปกป้องพลังลบ', desc: 'หินดำดูดพลังลบและความคิดของคนรอบข้าง เหมาะกับคนอ่อนไหว', img: STONE_IMG.onyx, fb: kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
+  'decision': { name: 'ไทเกอร์อาย (Tiger Eye)', goal: '🎯 ตัดสินใจได้เด็ดขาด', desc: 'หินสีน้ำตาลทองช่วยให้คุณเห็นภาพชัด ตัดสินใจได้ฉับไว ไม่ลังเล', img: STONE_IMG.tigerseye, fb: kawaiiStone('#d8a868', '#8a5028', 'round') },
+  'calm': { name: 'อเมทิสต์ (Amethyst)', goal: '🧘 สงบจิตใจ', desc: 'หินสีม่วงช่วยให้ใจเย็น ลดความหงุดหงิด เสริมสมาธิ ทำให้นอนหลับดี', img: STONE_IMG.amethyst, fb: kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
+  'patience': { name: 'แชลซีโดนี (Chalcedony)', goal: '⏳ เพิ่มความอดทน', desc: 'หินสีฟ้าอ่อนนวลช่วยลดความใจร้อน เพิ่มความอดทนและความเมตตา', img: STONE_IMG.chalcedony, fb: kawaiiStone('#f5f0e8', '#a8a098', 'round') },
+  'love': { name: 'โรสควอตซ์ (Rose Quartz)', goal: '💗 ความรักและสัมพันธ์', desc: 'ราชินีแห่งหินความรัก เสริมเสน่ห์ ทำให้ใจอ่อนโยน ดึงดูดความรักดีๆ', img: STONE_IMG.rosequartz, fb: kawaiiStone('#ffd6e0', '#f5a5c0', 'heart') },
+  'focus': { name: 'ฟลูออไรต์ (Fluorite)', goal: '🎯 เพิ่มสมาธิและโฟกัส', desc: 'หินสีเขียว-ม่วงช่วยเพิ่มสมาธิ จัดระเบียบความคิด เหมาะกับคนที่คิดเยอะ', img: STONE_IMG.fluorite, fb: kawaiiStone('#a8b8e8', '#5a78c0', 'diamond') },
+  'wealth': { name: 'ไหมทอง (Gold Rutilated Quartz)', goal: '💰 ดึงดูดเงินทอง', desc: 'หินใสที่มีเส้นทองข้างใน เป็นหินดึงดูดความมั่งคั่งและโอกาสทางธุรกิจชั้นเลิศ', img: STONE_IMG.goldrutile, fb: kawaiiStone('#e8c878', '#a88020', 'diamond') },
+  'wealth-flow': { name: 'หยก (Jade)', goal: '💎 กระแสเงินสด', desc: 'นำพาความเจริญรุ่งเรือง โชคลาภ และทรัพย์สินมาตลอดชีวิต', img: STONE_IMG.jade, fb: kawaiiStone('#a8d8b8', '#4ca878', 'flower') },
+  'wealth-save': { name: 'การ์เน็ต (Garnet)', goal: '🏦 รักษาทรัพย์', desc: 'ช่วยให้คุณเก็บเงินได้ดีขึ้น ระมัดระวังการใช้จ่ายฟุ่มเฟือย', img: STONE_IMG.garnet, fb: kawaiiStone('#ff7d7d', '#7d1a1a', 'round') },
+  'commitment': { name: 'แหวนนิล (Onyx Ring)', goal: '🔗 ความมั่นคงและคำมั่น', desc: 'ช่วยให้คุณยึดมั่นในเป้าหมาย ไม่ล้มเลิกง่าย รักษาคำพูดและความสัมพันธ์', img: STONE_IMG.onyxring, fb: kawaiiStone('#c84840', '#5a1818', 'diamond') },
+  'self-love': { name: 'โรโดไนต์ (Rhodonite)', goal: '🌸 รักตัวเอง', desc: 'หินสีชมพูช่วยเตือนให้คุณดูแลตัวเอง ไม่ลืมความสุขของตัวเอง', img: STONE_IMG.rhodonite, fb: kawaiiStone('#f0a8c0', '#c05080', 'heart') },
+  'happiness': { name: 'คาร์เนเลียน (Carnelian)', goal: '☀️ ความสุข', desc: 'หินสีส้มแห่งดวงอาทิตย์ มอบความอบอุ่นและความสุขในชีวิตประจำวัน', img: STONE_IMG.carnelian, fb: kawaiiStone('#ffc070', '#e88c1a', 'star') },
+  'discipline': { name: 'ไทเกอร์ไอออน (Tiger Iron)', goal: '🎖️ วินัยและความเป็นระเบียบ', desc: 'หินผสมแร่เหล็ก ช่วยให้คุณมีวินัย แข็งแกร่ง มุ่งมั่นในเป้าหมาย', img: STONE_IMG.tigeriron, fb: kawaiiStone('#a8a8b8', '#4a4a5a', 'round') },
+  'joy': { name: 'ซิทริน (Citrine)', goal: '😊 ความเบิกบาน', desc: 'ดึงพลังงานบวก ทำให้คุณยิ้มได้ง่ายขึ้น มองโลกในแง่ดี', img: STONE_IMG.citrine, fb: kawaiiStone('#ffd870', '#f0a830', 'star') },
+  'opening-up': { name: 'อะความารีน (Aquamarine)', goal: '🗣️ เปิดใจสื่อสาร', desc: 'หินสีฟ้าอ่อนช่วยให้คุณกล้าพูด เปิดใจ บอกความรู้สึกได้ง่ายขึ้น', img: STONE_IMG.aquamarine, fb: kawaiiStone('#c8e0f0', '#6890b0', 'teardrop') },
+  'release-stress': { name: 'ลาบราโดไรท์ (Labradorite)', goal: '🌙 ปลดปล่อยความเครียด', desc: 'หินที่มีเหลือบสีรุ้ง ช่วยคลายเครียด ผ่อนคลายความวิตกกังวล นอนหลับดี', img: STONE_IMG.labradorite, fb: kawaiiStone('#e0c8f0', '#9070b8', 'flower') }
 };
 
 // Pick soul stone (primary stone) based on combined factors
@@ -1381,7 +1431,8 @@ function getSoulStone(dayInfo, zodiac, lifeNumber, cnZodiac) {
   const primary = dayInfo.stones[0];
   return {
     img: primary.img,
-    name: primary.name.replace(/^(แหวน|กำไล|สร้อย|จี้|ต่างหู)/, ''),
+    fb: primary.fb,
+    name: primary.name.replace(/^(แหวน|กำไล|สร้อย|จี้|ต่างหู|หยก)/, ''),
     fullName: primary.name,
     desc: primary.desc,
     tags: [dayInfo.day, zodiac.name, cnZodiac.th, `เลขชีวิต ${lifeNumber}`]
@@ -1526,15 +1577,15 @@ function calculateLifeNumber(dateStr) {
 }
 
 const numerologyStones = {
-  1: { stone: 'ทับทิม / ซิทริน', meaning: 'ผู้นำ มีพลังสร้างสรรค์ main character energy!', img: kawaiiStone('#ff8fa3', '#c0142c', 'star') },
-  2: { stone: 'มุก / มูนสโตน', meaning: 'นักประสานงาน อ่อนโยน ฟีล soft & sweet', img: kawaiiStone('#e8e8ff', '#a8a8d8', 'round') },
-  3: { stone: 'อเมทิสต์ / บุษราคัม', meaning: 'นักสื่อสาร มีเสน่ห์ ใครๆก็รัก it girl/boy vibes', img: kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
-  4: { stone: 'มรกต / หยก', meaning: 'มั่นคง หนักแน่น เป็นที่พึ่งของทุกคน reliable bestie', img: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
-  5: { stone: 'เทอร์ควอยซ์ / อะความารีน', meaning: 'รักอิสระ ผจญภัย ชอบเดินทาง wanderlust soul', img: kawaiiStone('#a0e0e8', '#40b0c0', 'teardrop') },
-  6: { stone: 'มรกต / โรสควอตซ์', meaning: 'รักครอบครัว มีเมตตา caregiver แห่งกลุ่มเพื่อน', img: kawaiiStone('#ffd6e0', '#f5a5c0', 'flower') },
-  7: { stone: 'อเมทิสต์ / แซฟไฟร์', meaning: 'นักคิด ปัญญาลึก สาย deep thinker / philosopher', img: kawaiiStone('#7a9ce0', '#1a3a8a', 'star') },
-  8: { stone: 'นิล / โอนิกซ์', meaning: 'มุ่งสู่ความสำเร็จ มั่งคั่ง boss babe / boss man', img: kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
-  9: { stone: 'การ์เน็ต / ทับทิม', meaning: 'เอื้อเฟื้อ มีอุดมการณ์ ฟีลคนที่จะเปลี่ยนโลก', img: kawaiiStone('#ff7d7d', '#7d1a1a', 'heart') }
+  1: { stone: 'ทับทิม / ซิทริน', meaning: 'ผู้นำ มีพลังสร้างสรรค์ main character energy!', img: STONE_IMG.ruby, fb: kawaiiStone('#ff8fa3', '#c0142c', 'star') },
+  2: { stone: 'มุก / มูนสโตน', meaning: 'นักประสานงาน อ่อนโยน ฟีล soft & sweet', img: STONE_IMG.moonstone, fb: kawaiiStone('#e8e8ff', '#a8a8d8', 'round') },
+  3: { stone: 'อเมทิสต์ / บุษราคัม', meaning: 'นักสื่อสาร มีเสน่ห์ ใครๆก็รัก it girl/boy vibes', img: STONE_IMG.amethyst, fb: kawaiiStone('#c8a8e8', '#8a3ac0', 'heart') },
+  4: { stone: 'มรกต / หยก', meaning: 'มั่นคง หนักแน่น เป็นที่พึ่งของทุกคน reliable bestie', img: STONE_IMG.jade, fb: kawaiiStone('#7eddae', '#1a8a4a', 'diamond') },
+  5: { stone: 'เทอร์ควอยซ์ / อะความารีน', meaning: 'รักอิสระ ผจญภัย ชอบเดินทาง wanderlust soul', img: STONE_IMG.turquoise, fb: kawaiiStone('#a0e0e8', '#40b0c0', 'teardrop') },
+  6: { stone: 'มรกต / โรสควอตซ์', meaning: 'รักครอบครัว มีเมตตา caregiver แห่งกลุ่มเพื่อน', img: STONE_IMG.rosequartz, fb: kawaiiStone('#ffd6e0', '#f5a5c0', 'flower') },
+  7: { stone: 'อเมทิสต์ / แซฟไฟร์', meaning: 'นักคิด ปัญญาลึก สาย deep thinker / philosopher', img: STONE_IMG.bluesapphire, fb: kawaiiStone('#7a9ce0', '#1a3a8a', 'star') },
+  8: { stone: 'นิล / โอนิกซ์', meaning: 'มุ่งสู่ความสำเร็จ มั่งคั่ง boss babe / boss man', img: STONE_IMG.onyx, fb: kawaiiStone('#5a5570', '#1a1a1a', 'diamond') },
+  9: { stone: 'การ์เน็ต / ทับทิม', meaning: 'เอื้อเฟื้อ มีอุดมการณ์ ฟีลคนที่จะเปลี่ยนโลก', img: STONE_IMG.garnet, fb: kawaiiStone('#ff7d7d', '#7d1a1a', 'heart') }
 };
 
 /* ---------- Storage layer ---------- */
@@ -1672,9 +1723,9 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
   const luckyNum = (seedBase % 9) + 1;
   const luckyDirection = pick(['ทิศเหนือ','ทิศใต้','ทิศตะวันออก','ทิศตะวันตก','ทิศตะวันออกเฉียงเหนือ','ทิศตะวันตกเฉียงใต้'], seedBase >> 14);
 
-  const stoneCard = (img, emoji, name, desc) => `
+  const stoneCard = (img, fb, emoji, name, desc) => `
     <div class="stone-card">
-      <img class="stone-image" src="${img}" alt="${name}">
+      <img class="stone-image" src="${img}" alt="${name}" loading="lazy" crossorigin="anonymous" onerror="this.onerror=null;this.src='${fb}';this.removeAttribute('crossorigin');">
       <div class="stone-content">
         <div class="stone-name"><span class="stone-emoji">${emoji}</span>${name}</div>
         <div class="stone-desc">${desc}</div>
@@ -1682,7 +1733,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     </div>
   `;
 
-  let stonesHtml = dayInfo.stones.map(s => stoneCard(s.img, s.emoji, s.name, s.desc)).join('');
+  let stonesHtml = dayInfo.stones.map(s => stoneCard(s.img, s.fb, s.emoji, s.name, s.desc)).join('');
 
   // Get personality and soul stone
   const personality = personalityByDay[dayOfWeek];
@@ -1695,7 +1746,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     .filter(Boolean)
     .map(s => `
       <div class="enhance-card">
-        <img class="enhance-image" src="${s.img()}" alt="${s.name}">
+        <img class="enhance-image" src="${s.img}" alt="${s.name}" loading="lazy" crossorigin="anonymous" onerror="this.onerror=null;this.src='${s.fb}';this.removeAttribute('crossorigin');">
         <div class="enhance-content">
           <span class="enhance-goal">${s.goal}</span>
           <div class="enhance-name">${s.name}</div>
@@ -1721,7 +1772,7 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     <div class="section-title">หินประจำตัวของคุณ</div>
     <div class="soul-stone">
       <div class="soul-label">✦ MY SOUL STONE ✦</div>
-      <img class="soul-image" src="${soulStone.img}" alt="${soulStone.fullName}">
+      <img class="soul-image" src="${soulStone.img}" alt="${soulStone.fullName}" crossorigin="anonymous" onerror="this.onerror=null;this.src='${soulStone.fb}';this.removeAttribute('crossorigin');">
       <div class="soul-name">${soulStone.fullName}</div>
       <div class="soul-desc">${soulStone.desc}</div>
       <div class="soul-tags">
@@ -1845,10 +1896,10 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     ${stonesHtml}
 
     <div class="section-title">หินตามราศี ${zodiac.emoji}</div>
-    ${stoneCard(zodiac.img, zodiac.emoji, zodiac.stone + ' (ราศี' + zodiac.name + ')', 'หินคู่ดวงตามราศี เสริมพลังจักรวาลและพรหมลิขิตให้ปังตลอดปี')}
+    ${stoneCard(zodiac.img, zodiac.fb, zodiac.emoji, zodiac.stone + ' (ราศี' + zodiac.name + ')', 'หินคู่ดวงตามราศี เสริมพลังจักรวาลและพรหมลิขิตให้ปังตลอดปี')}
 
     <div class="section-title">หินตามเลขชีวิต ${lifeNumber}</div>
-    ${stoneCard(numInfo.img, '🔮', numInfo.stone, numInfo.meaning + ' เหมาะกับคนเลขชีวิต ' + lifeNumber + ' สุดๆ')}
+    ${stoneCard(numInfo.img, numInfo.fb, '🔮', numInfo.stone, numInfo.meaning + ' เหมาะกับคนเลขชีวิต ' + lifeNumber + ' สุดๆ')}
 
     <div class="footer-msg">
       ✨ ขอให้หินมงคลพา ${firstName} ปังตลอดไปน้า 💕<br>
@@ -1878,7 +1929,8 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     dayName: dayInfo.day,
     zodiacName: zodiac.name,
     // Full data for IG story (no PII like phone/email)
-    soulStoneImg: soulStone.img,
+    // Use kawaii SVG fallback for html2canvas (avoids CORS taint on cross-origin images)
+    soulStoneImg: soulStone.fb || soulStone.img,
     soulStoneName: soulStone.fullName,
     soulStoneDesc: soulStone.desc,
     cnZodiac: `${cnZodiac.emoji} ${cnZodiac.th}`,
@@ -2114,9 +2166,10 @@ async function generateStoryCard() {
     overflow: hidden;
   `;
 
+  // Use kawaii SVG fallback for html2canvas (avoids CORS issues)
   const enhanceHtml = d.enhanceList.map(e => `
     <div style="display:flex;align-items:center;gap:18px;background:rgba(255,255,255,0.85);padding:18px 24px;border-radius:32px;border:3px solid white;">
-      <img src="${e.img()}" style="width:90px;height:90px;flex-shrink:0;" />
+      <img src="${e.fb || e.img}" style="width:90px;height:90px;flex-shrink:0;border-radius:18px;object-fit:cover;" />
       <div style="text-align:left;">
         <div style="font-size:24px;color:#9061f5;font-weight:600;">${e.goal}</div>
         <div style="font-size:30px;font-weight:700;color:#4a3267;">${e.name}</div>
