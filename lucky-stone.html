@@ -408,11 +408,11 @@
     margin-bottom: 8px;
     letter-spacing: 1px;
   }
-  /* Deity card */
+  /* Deity card — simple, name + powers + description only */
   .deity-card {
     background: linear-gradient(135deg, #fff8e0 0%, #ffead0 60%, #ffe0c0 100%);
     border-radius: 24px;
-    padding: 22px 20px;
+    padding: 26px 24px;
     margin-bottom: 14px;
     border: 3px solid #f5c878;
     box-shadow: 0 10px 24px rgba(245, 180, 60, 0.25);
@@ -423,78 +423,38 @@
   .deity-card::before, .deity-card::after {
     content: '🪷';
     position: absolute;
-    font-size: 1.3em;
+    font-size: 1.4em;
     opacity: 0.4;
-    top: 12px;
+    top: 14px;
   }
-  .deity-card::before { left: 14px; }
-  .deity-card::after { right: 14px; }
-  .deity-emoji {
-    font-size: 4em;
-    margin-bottom: 6px;
-    line-height: 1;
-    filter: drop-shadow(0 6px 12px rgba(245, 180, 60, 0.4));
-    animation: bounce 3s ease-in-out infinite;
-  }
+  .deity-card::before { left: 16px; }
+  .deity-card::after { right: 16px; }
   .deity-name {
     font-family: 'Bubblegum Sans', sans-serif;
     color: #b8651a;
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
     letter-spacing: 1px;
+    line-height: 1.1;
   }
   .deity-powers {
     display: inline-block;
     background: white;
     color: #b8651a;
-    padding: 5px 16px;
-    border-radius: 18px;
+    padding: 6px 18px;
+    border-radius: 20px;
     font-weight: 600;
     border: 2px solid #f5c878;
-    font-size: 0.92em;
-    margin-bottom: 12px;
+    font-size: 0.95em;
+    margin-bottom: 14px;
   }
   .deity-desc {
     color: #7a4520;
-    line-height: 1.6;
-    font-size: 0.95em;
-    max-width: 500px;
-    margin: 0 auto 16px;
-  }
-  .deity-details {
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 16px;
-    padding: 14px 16px;
-    text-align: left;
-    margin-top: 12px;
-  }
-  .deity-row {
-    display: flex;
-    gap: 10px;
-    padding: 6px 0;
-    align-items: flex-start;
-    font-size: 0.92em;
-    color: #6b3818;
-    line-height: 1.5;
-  }
-  .deity-row:not(:last-child) { border-bottom: 1px dashed rgba(184, 101, 26, 0.2); }
-  .deity-row .lbl {
-    flex-shrink: 0;
-    font-weight: 700;
-    color: #b8651a;
-    min-width: 90px;
-  }
-  .deity-mantra {
-    font-family: 'Bubblegum Sans', sans-serif;
-    background: linear-gradient(135deg, #fff5d6 0%, #ffe4b8 100%);
-    border: 2px solid #f5c878;
-    border-radius: 14px;
-    padding: 10px 16px;
-    margin-top: 12px;
-    color: #8a4810;
-    font-size: 1.1em;
-    letter-spacing: 1.5px;
+    line-height: 1.7;
+    font-size: 0.98em;
+    max-width: 520px;
+    margin: 0 auto;
   }
 
   .element-tag {
@@ -1505,66 +1465,38 @@ function getSoulStone(dayInfo, zodiac, lifeNumber, cnZodiac) {
 const deityByDay = {
   0: {
     name: 'พระสุริยเทพ / พระพรหม',
-    emoji: '🌞',
     powers: '✦ บารมี · ผู้นำ · ชื่อเสียง ✦',
-    desc: 'องค์เทพแห่งดวงอาทิตย์และพระผู้สร้าง เสริมบารมีให้คุณเด่นในทุกที่ที่ไป เหมาะกับผู้ที่ต้องการก้าวหน้าในหน้าที่การงานและเป็นที่ยอมรับ',
-    offering: 'ดอกดาวเรือง · พวงมาลัยสีแดง-ส้ม · ผลไม้สีส้ม · ขนมหวาน',
-    day: 'วันอาทิตย์ ตอนเช้าก่อน 9 โมง',
-    mantra: '🕉 โอม สูริยายะ นะมะฮา'
+    desc: 'องค์เทพแห่งดวงอาทิตย์และพระผู้สร้าง เสริมบารมีให้คุณเด่นในทุกที่ที่ไป เหมาะกับผู้ที่ต้องการก้าวหน้าในหน้าที่การงานและเป็นที่ยอมรับ'
   },
   1: {
     name: 'พระแม่ลักษมี',
-    emoji: '🌸',
     powers: '✦ เสน่ห์ · ความรัก · ความมั่งคั่ง ✦',
-    desc: 'พระแม่แห่งความสง่างามและความมั่งคั่ง เสริมเสน่ห์ ความรัก ดึงดูดสิ่งดีๆ เหมาะกับผู้หญิงและคนที่ต้องการความเป็นที่รักของคนรอบข้าง',
-    offering: 'นมจืด · ดอกบัวขาว/ชมพู · ขนมหวานสีขาว · น้ำหอม',
-    day: 'วันศุกร์ และวันเพ็ญ',
-    mantra: '🕉 โอม ศรี มหา ลักษมี เย นะมะฮา'
+    desc: 'พระแม่แห่งความสง่างามและความมั่งคั่ง เสริมเสน่ห์ ความรัก ดึงดูดสิ่งดีๆ เหมาะกับผู้หญิงและคนที่ต้องการความเป็นที่รักของคนรอบข้าง'
   },
   2: {
     name: 'ท้าวเวสสุวรรณ',
-    emoji: '🔥',
     powers: '✦ ป้องกันภัย · พลังกล้าหาญ · ขจัดสิ่งชั่วร้าย ✦',
-    desc: 'มหาเทพแห่งการปกป้องและความมั่งคั่ง เสริมพลังกล้าหาญ ขจัดศัตรู คนคิดร้าย เหมาะกับคนที่อยากแข็งแกร่งและปลอดภัยจากภัยทั้งปวง',
-    offering: 'ดอกชบาแดง · ผลไม้สีแดง · น้ำผลไม้แดง · ธูป 9 ดอก',
-    day: 'วันอังคาร และวันเสาร์',
-    mantra: '🕉 โอม เวสสุวรรณโณ มหาราชา นะมะฮา'
+    desc: 'มหาเทพแห่งการปกป้องและความมั่งคั่ง เสริมพลังกล้าหาญ ขจัดศัตรู คนคิดร้าย เหมาะกับคนที่อยากแข็งแกร่งและปลอดภัยจากภัยทั้งปวง'
   },
   3: {
     name: 'พระพิฆเนศ',
-    emoji: '🐘',
     powers: '✦ ปัญญา · ความสำเร็จ · ขจัดอุปสรรค ✦',
-    desc: 'องค์เทพแห่งปัญญา ขจัดอุปสรรคในการเรียน-การงาน เสริมการเจรจา ค้าขาย เหมาะกับคนทำงาน นักเรียน นักธุรกิจ และครีเอเตอร์ทุกแขนง',
-    offering: 'นมจืด · ลาดู/ขนมโมทกะ · กล้วย · มะพร้าวอ่อน',
-    day: 'วันพุธ และทุกวันแรม 4 ค่ำ',
-    mantra: '🕉 โอม ศรี คเณศายะ นะมะฮา'
+    desc: 'องค์เทพแห่งปัญญา ขจัดอุปสรรคในการเรียน-การงาน เสริมการเจรจา ค้าขาย เหมาะกับคนทำงาน นักเรียน นักธุรกิจ และครีเอเตอร์ทุกแขนง'
   },
   4: {
     name: 'พระคุรุเทพ / พระวิษณุ',
-    emoji: '📿',
     powers: '✦ ปัญญา · การเรียน · ครูบาอาจารย์ ✦',
-    desc: 'องค์เทพแห่งความรู้และครูบาอาจารย์ เสริมปัญญา การเรียน การสอน เป็นที่เคารพนับถือ เหมาะกับครู อาจารย์ นักเรียน นักวิจัย',
-    offering: 'ข้าวสุก · ดอกดาวเรือง · ผ้าสีเหลือง · ขมิ้น',
-    day: 'วันพฤหัสบดี',
-    mantra: '🕉 โอม คุรุเว นะมะฮา'
+    desc: 'องค์เทพแห่งความรู้และครูบาอาจารย์ เสริมปัญญา การเรียน การสอน เป็นที่เคารพนับถือ เหมาะกับครู อาจารย์ นักเรียน นักวิจัย'
   },
   5: {
     name: 'พระตรีมูรติ',
-    emoji: '💕',
     powers: '✦ ความรัก · เนื้อคู่ · ความสวยงาม ✦',
-    desc: 'เทพเจ้าสามองค์ผู้ประทานพรเรื่องความรัก เสริมความสัมพันธ์ ดึงดูดเนื้อคู่ที่ดี เหมาะกับคนโสดและคู่รักที่ต้องการให้ความสัมพันธ์มั่นคง',
-    offering: 'ดอกกุหลาบแดง 9 ดอก · ธูป 9 ดอก · เทียนแดง 1 คู่',
-    day: 'วันพฤหัสบดี เวลา 21:30 น.',
-    mantra: '🕉 โอม ตรีมูรติ เทวะ นะมะฮา'
+    desc: 'เทพเจ้าสามองค์ผู้ประทานพรเรื่องความรัก เสริมความสัมพันธ์ ดึงดูดเนื้อคู่ที่ดี เหมาะกับคนโสดและคู่รักที่ต้องการให้ความสัมพันธ์มั่นคง'
   },
   6: {
     name: 'พระราหู',
-    emoji: '🌑',
     powers: '✦ พลิกชีวิต · ปัญญาลึก · พลังลับ ✦',
-    desc: 'องค์เทพแห่งการเปลี่ยนแปลงและพลังลึกลับ เสริมพลังจิต ปัญญาลึก เปลี่ยนเรื่องร้ายเป็นดี เหมาะกับคนที่ผ่านอุปสรรคใหญ่หรืออยากเริ่มต้นชีวิตใหม่',
-    offering: 'ของไหว้ 8 สีดำ (กาแฟดำ · ไข่เยี่ยวม้า · ช็อกโกแลตดำ · เฉาก๊วย · น้ำอัดลมดำ · องุ่นดำ · ขนมเปียกปูน · สาหร่าย)',
-    day: 'วันพุธ ตอน 4 ทุ่ม',
-    mantra: '🕉 โอม ราหเว นะมะฮา'
+    desc: 'องค์เทพแห่งการเปลี่ยนแปลงและพลังลึกลับ เสริมพลังจิต ปัญญาลึก เปลี่ยนเรื่องร้ายเป็นดี เหมาะกับคนที่ผ่านอุปสรรคใหญ่หรืออยากเริ่มต้นชีวิตใหม่'
   }
 };
 
@@ -1720,11 +1652,6 @@ const numerologyStones = {
 /* ---------- Storage layer ---------- */
 const STORAGE_KEY = 'lucky_stone_submissions';
 
-// === Google Sheets endpoint ===
-// Paste your Google Apps Script Web App URL below (see apps-script.gs for setup).
-// Leave empty string '' to disable Sheets sync — data still saves to localStorage.
-const SHEETS_ENDPOINT = '';
-
 let submissions = [];
 try {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -1734,24 +1661,6 @@ try {
 function saveSubmissions() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions)); }
   catch (e) { console.warn('localStorage write failed:', e); }
-}
-
-// Send a submission to the Google Sheets endpoint.
-// Uses text/plain to avoid CORS preflight; uses no-cors so request still
-// reaches Apps Script (we don't read the response). Apps Script can parse
-// the JSON body via e.postData.contents.
-async function sendToSheets(payload) {
-  if (!SHEETS_ENDPOINT) return;
-  try {
-    await fetch(SHEETS_ENDPOINT, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-  } catch (e) {
-    console.warn('Sheets submit failed:', e);
-  }
 }
 
 /* ---------- Tab switching ---------- */
@@ -1991,23 +1900,9 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
 
     <div class="section-title">องค์เทพที่ส่งเสริม</div>
     <div class="deity-card">
-      <div class="deity-emoji">${deity.emoji}</div>
       <div class="deity-name">${deity.name}</div>
       <div class="deity-powers">${deity.powers}</div>
       <div class="deity-desc">${deity.desc}</div>
-
-      <div class="deity-details">
-        <div class="deity-row">
-          <span class="lbl">🌸 ของไหว้</span>
-          <span>${deity.offering}</span>
-        </div>
-        <div class="deity-row">
-          <span class="lbl">🗓️ วันบูชา</span>
-          <span>${deity.day}</span>
-        </div>
-      </div>
-
-      <div class="deity-mantra">${deity.mantra}</div>
     </div>
 
     <div class="section-title">คำทำนายประจำวัน (${todayThai})</div>
@@ -2138,12 +2033,9 @@ document.getElementById('stoneForm').addEventListener('submit', function(e) {
     consent: true
   };
 
-  // Save to localStorage (always — works as offline backup)
+  // Save to localStorage — admin page reads from here, export CSV when needed
   submissions.push(submission);
   saveSubmissions();
-
-  // Send to Google Sheets in the background (fire-and-forget, doesn't block UI)
-  sendToSheets(submission);
 
   document.getElementById('result').classList.add('show');
   document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
